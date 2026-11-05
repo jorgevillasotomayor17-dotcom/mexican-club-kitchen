@@ -1,0 +1,31 @@
+.portada {
+  min-height: 80vh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1rem;
+  padding: 3rem 1rem;
+  text-align: center;
+  background: linear-gradient(180deg, var(--color-crema) 0%, #ffe8c2 100%);
+}
+
+.portada h1 {
+  margin: 0;
+  font-size: clamp(2.25rem, 9vw, 4.5rem);
+  line-height: 1.1;
+  color: var(--color-rojo);
+}
+
+.portada-etiqueta {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-verde);
+}
+
+.portada-texto {
+  max-width: 32rem;
+  margin: 0;
+  font-size: 1.25rem;
+}

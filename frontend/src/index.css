@@ -16,6 +16,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -26,22 +30,21 @@ img {
   max-width: 100%;
 }
 
-.inicio {
-  min-height: 100vh;
-  display: grid;
-  place-content: center;
-  padding: 1rem;
-  text-align: center;
+section[id] {
+  scroll-margin-top: 4rem;
 }
 
-.inicio h1 {
-  margin: 0;
-  font-size: clamp(2rem, 8vw, 4rem);
-  color: var(--color-rojo);
+.boton {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  background-color: var(--color-rojo);
 }
 
-.inicio p {
-  margin: 0.5rem 0 0;
-  font-size: 1.25rem;
-  color: var(--color-verde);
+.boton:hover,
+.boton:focus-visible {
+  background-color: #a00d25;
 }
