@@ -26,6 +26,10 @@ app.use((error, req, res, next) => {
 });
 
 try {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('Falta JWT_SECRET en el archivo .env');
+  }
+
   await conectarDB();
 
   app.listen(PORT, () => {
