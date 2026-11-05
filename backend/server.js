@@ -3,6 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import { conectarDB } from './config/db.js';
 import authRouter from './routes/auth.js';
+import pedidosRouter from './routes/pedidos.js';
 import platosRouter from './routes/platos.js';
 
 const app = express();
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/platos', platosRouter);
+app.use('/api/pedidos', pedidosRouter);
 
 // Responde en JSON cuando llega un cuerpo mal formado u otro error inesperado
 app.use((error, req, res, next) => {
