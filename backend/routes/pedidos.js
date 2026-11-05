@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import mongoose from 'mongoose';
+import { requiereAdmin } from '../middleware/auth.js';
 import Pedido from '../models/Pedido.js';
 import Plato from '../models/Plato.js';
 
@@ -71,6 +72,45 @@ router.post('/', async (req, res) => {
     }
     console.error('Error al crear el pedido:', error.message);
     res.status(500).json({ mensaje: 'No se pudo crear el pedido' });
+  }
+});
+
+router.get('/', requiereAdmin, async (req, res) => {
+  try {
+    const pedidos = await Pedido.find().sort({ createdAt: -1 });
+    res.json(pedidos);
+  } catch (error) {
+    console.error('Error al obtener los pedidos:', error.message);
+    res.status(500).json({ mensaje: 'No se pudieron obtener los pedidos' });
+  }
+});
+
+router.patch('/:id/estado', requiereAdmin, async (req, res) => {
+  const { estado } = req.body ?? {};
+  const estadosValidos = Pedido.schema.path('estado').enumValues;
+
+  if (!mongoose.isValidObjectId(req.params.id)) {
+    return res.status(400).json({ mensaje: 'El id del pedido no es válido' });
+  }
+  if (!estadosValidos.includes(estado)) {
+    return res.status(400).json({ mensaje: `El estado debe ser: ${estadosValidos.join(', ')}` });
+  }
+
+  try {
+    const pedido = await Pedido.findByIdAndUpdate(
+      req.params.id,
+      { estado },
+      { returnDocument: 'after' }
+    );
+
+    if (!pedido) {
+      return res.status(404).json({ mensaje: 'Pedido no encontrado' });
+    }
+
+    res.json(pedido);
+  } catch (error) {
+    console.error('Error al cambiar el estado del pedido:', error.message);
+    res.status(500).json({ mensaje: 'No se pudo cambiar el estado' });
   }
 });
 
