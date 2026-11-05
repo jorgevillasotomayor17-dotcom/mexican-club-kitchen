@@ -2,6 +2,7 @@ import 'dotenv/config';
 import cors from 'cors';
 import express from 'express';
 import { conectarDB } from './config/db.js';
+import authRouter from './routes/auth.js';
 import platosRouter from './routes/platos.js';
 
 const app = express();
@@ -14,6 +15,7 @@ app.get('/', (req, res) => {
   res.json({ mensaje: 'API de Mexican Club Kitchen funcionando' });
 });
 
+app.use('/api/auth', authRouter);
 app.use('/api/platos', platosRouter);
 
 // Responde en JSON cuando llega un cuerpo mal formado u otro error inesperado
