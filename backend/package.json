@@ -1,0 +1,14 @@
+{
+  "name": "mexican-club-kitchen-backend",
+  "version": "1.0.0",
+  "description": "Servidor de Mexican Club Kitchen",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
