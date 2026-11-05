@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import mongoose from 'mongoose';
 import { requiereAdmin } from '../middleware/auth.js';
 import Plato from '../models/Plato.js';
 
@@ -47,6 +48,50 @@ router.post('/', requiereAdmin, async (req, res) => {
     }
     console.error('Error al crear el plato:', error.message);
     res.status(500).json({ mensaje: 'No se pudo crear el plato' });
+  }
+});
+
+router.put('/:id', requiereAdmin, async (req, res) => {
+  if (!mongoose.isValidObjectId(req.params.id)) {
+    return res.status(400).json({ mensaje: 'El id del plato no es válido' });
+  }
+
+  try {
+    const plato = await Plato.findByIdAndUpdate(req.params.id, elegirCampos(req.body), {
+      returnDocument: 'after',
+      runValidators: true,
+    });
+
+    if (!plato) {
+      return res.status(404).json({ mensaje: 'Plato no encontrado' });
+    }
+
+    res.json(plato);
+  } catch (error) {
+    if (error.name === 'ValidationError' || error.name === 'CastError') {
+      return res.status(400).json({ mensaje: 'Datos del plato no válidos' });
+    }
+    console.error('Error al editar el plato:', error.message);
+    res.status(500).json({ mensaje: 'No se pudo editar el plato' });
+  }
+});
+
+router.delete('/:id', requiereAdmin, async (req, res) => {
+  if (!mongoose.isValidObjectId(req.params.id)) {
+    return res.status(400).json({ mensaje: 'El id del plato no es válido' });
+  }
+
+  try {
+    const plato = await Plato.findByIdAndDelete(req.params.id);
+
+    if (!plato) {
+      return res.status(404).json({ mensaje: 'Plato no encontrado' });
+    }
+
+    res.json({ mensaje: 'Plato eliminado' });
+  } catch (error) {
+    console.error('Error al eliminar el plato:', error.message);
+    res.status(500).json({ mensaje: 'No se pudo eliminar el plato' });
   }
 });
 
