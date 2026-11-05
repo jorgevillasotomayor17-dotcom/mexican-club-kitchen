@@ -1,0 +1,11 @@
+# Dependencias: se reinstalan con npm install
+node_modules/
+
+# Secretos: contraseñas y claves
+.env
+
+# Versión final del frontend: se genera con npm run build
+dist/
+
+# Registros de errores de npm
+*.log
