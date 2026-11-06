@@ -1,0 +1,85 @@
+.contacto {
+  padding: 4rem 1rem;
+  background-color: white;
+}
+
+.contacto h2 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  text-align: center;
+  color: var(--color-verde);
+}
+
+.contacto-intro {
+  margin: 0 0 2rem;
+  text-align: center;
+}
+
+.contacto-formulario {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+.contacto-formulario label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.contacto-formulario input,
+.contacto-formulario textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #c9bfb2;
+  border-radius: 0.5rem;
+  font: inherit;
+  font-weight: 400;
+  background-color: var(--color-crema);
+}
+
+.contacto-formulario input:focus,
+.contacto-formulario textarea:focus {
+  border-color: var(--color-verde);
+  outline: 2px solid var(--color-verde);
+  outline-offset: 1px;
+}
+
+.contacto-formulario textarea {
+  resize: vertical;
+}
+
+.contacto-opcional {
+  font-weight: 400;
+  color: #6b5d4f;
+}
+
+.contacto-formulario .boton {
+  justify-self: start;
+  border: none;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.contacto-formulario .boton:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.contacto-aviso {
+  margin: 0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.contacto-aviso-enviado {
+  color: #14532d;
+  background-color: #dcfce7;
+}
+
+.contacto-aviso-error {
+  color: #8a0b20;
+  background-color: #fde4e8;
+}

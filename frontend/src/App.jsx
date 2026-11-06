@@ -1,3 +1,4 @@
+import Contacto from './components/Contacto.jsx'
 import Encabezado from './components/Encabezado.jsx'
 import Menu from './components/Menu.jsx'
 import Nosotros from './components/Nosotros.jsx'
@@ -13,6 +14,7 @@ function App() {
         <Portada />
         <Menu />
         <Nosotros />
+        <Contacto />
       </main>
 
       <PiePagina />
