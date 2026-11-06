@@ -123,6 +123,38 @@
   color: var(--color-verde);
 }
 
+/* Pestañas para cambiar de sección */
+
+.panel-pestanas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e5dccf;
+}
+
+.panel-pestana {
+  margin-bottom: -2px;
+  padding: 0.6rem 1.1rem;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font: inherit;
+  font-weight: 600;
+  color: #6b5d4f;
+  background: none;
+  cursor: pointer;
+}
+
+.panel-pestana:hover,
+.panel-pestana:focus-visible {
+  color: var(--color-verde);
+}
+
+.panel-pestana[aria-pressed='true'] {
+  border-bottom-color: var(--color-verde);
+  color: var(--color-verde);
+}
+
 .panel-error {
   padding: 0.75rem;
   border-radius: 0.5rem;
@@ -314,6 +346,100 @@
 }
 
 .form-plato-botones .boton:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* Pedidos */
+
+.pedido {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-left: 4px solid #d97706;
+  border-radius: 0.5rem;
+  background-color: white;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.08);
+}
+
+.pedido-preparando {
+  border-left-color: #2563eb;
+}
+
+.pedido-en-camino {
+  border-left-color: #7c3aed;
+}
+
+.pedido-entregado {
+  border-left-color: var(--color-verde);
+}
+
+.pedido-cancelado {
+  border-left-color: #b8ada0;
+  opacity: 0.75;
+}
+
+.pedido-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+}
+
+.pedido-cabecera span,
+.pedido-contacto {
+  font-size: 0.9rem;
+  color: #6b5d4f;
+}
+
+.pedido-contacto {
+  margin: 0;
+}
+
+.pedido-contacto a {
+  color: var(--color-verde);
+}
+
+.pedido-items {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0.75rem 0;
+  border-top: 1px dashed #e5dccf;
+  border-bottom: 1px dashed #e5dccf;
+  list-style: none;
+}
+
+.pedido-items li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.pedido-pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.pedido-estado {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.pedido-estado select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #c9bfb2;
+  border-radius: 0.5rem;
+  font: inherit;
+  background-color: var(--color-crema);
+}
+
+.pedido-estado select:disabled {
   opacity: 0.6;
   cursor: wait;
 }

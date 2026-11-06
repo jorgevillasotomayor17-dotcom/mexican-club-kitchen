@@ -1,10 +1,17 @@
 import { useCallback, useState } from 'react'
+import GestionPedidos from './GestionPedidos.jsx'
 import GestionPlatos from './GestionPlatos.jsx'
 import Login from './Login.jsx'
 import { cerrarSesion, leerSesion } from './sesion.js'
 
+const SECCIONES = [
+  { id: 'platos', nombre: 'Platos' },
+  { id: 'pedidos', nombre: 'Pedidos' },
+]
+
 function PanelAdmin() {
   const [sesion, setSesion] = useState(leerSesion)
+  const [seccion, setSeccion] = useState('platos')
 
   // useCallback mantiene la misma función entre dibujos, para no repetir la carga de datos
   const salir = useCallback(() => {
@@ -32,7 +39,23 @@ function PanelAdmin() {
 
       <main className="panel">
         <h1>Panel de administración</h1>
-        <GestionPlatos onSesionVencida={salir} />
+
+        <nav className="panel-pestanas" aria-label="Secciones del panel">
+          {SECCIONES.map((opcion) => (
+            <button
+              key={opcion.id}
+              type="button"
+              className="panel-pestana"
+              aria-pressed={seccion === opcion.id}
+              onClick={() => setSeccion(opcion.id)}
+            >
+              {opcion.nombre}
+            </button>
+          ))}
+        </nav>
+
+        {seccion === 'platos' && <GestionPlatos onSesionVencida={salir} />}
+        {seccion === 'pedidos' && <GestionPedidos onSesionVencida={salir} />}
       </main>
     </>
   )
