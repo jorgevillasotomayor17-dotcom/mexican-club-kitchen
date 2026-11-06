@@ -1,4 +1,5 @@
 import Encabezado from './components/Encabezado.jsx'
+import Menu from './components/Menu.jsx'
 import Nosotros from './components/Nosotros.jsx'
 import PiePagina from './components/PiePagina.jsx'
 import Portada from './components/Portada.jsx'
@@ -10,6 +11,7 @@ function App() {
 
       <main>
         <Portada />
+        <Menu />
         <Nosotros />
       </main>
 
