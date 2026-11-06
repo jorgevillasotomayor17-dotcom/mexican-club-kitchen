@@ -11,7 +11,7 @@ function Contacto() {
 
   function cambiarCampo(evento) {
     const { name, value } = evento.target
-    setCampos({ ...campos, [name]: value })
+    setCampos((anteriores) => ({ ...anteriores, [name]: value }))
   }
 
   async function enviar(evento) {
