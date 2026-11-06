@@ -229,3 +229,103 @@
   flex-wrap: wrap;
   gap: 0.5rem;
 }
+
+/* Formulario para crear o editar un plato */
+
+.form-plato {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  border: 2px solid var(--color-verde);
+  border-radius: 0.75rem;
+  background-color: white;
+}
+
+.form-plato h3 {
+  margin: 0;
+  color: var(--color-verde);
+}
+
+.form-plato label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.form-plato input:not([type='checkbox']),
+.form-plato textarea,
+.form-plato select {
+  width: 100%;
+  padding: 0.65rem;
+  border: 1px solid #c9bfb2;
+  border-radius: 0.5rem;
+  font: inherit;
+  font-weight: 400;
+  background-color: var(--color-crema);
+}
+
+.form-plato input:focus,
+.form-plato textarea:focus,
+.form-plato select:focus {
+  border-color: var(--color-verde);
+  outline: 2px solid var(--color-verde);
+  outline-offset: 1px;
+}
+
+.form-plato textarea {
+  resize: vertical;
+}
+
+.form-plato-fila {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 1rem;
+}
+
+.form-plato-opcional {
+  font-weight: 400;
+  color: #6b5d4f;
+}
+
+.form-plato .form-plato-casilla {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-plato-casilla input {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--color-verde);
+}
+
+.form-plato-botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.form-plato-botones .boton {
+  border: none;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.form-plato-botones .boton:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.gestion-cabecera .boton {
+  border: none;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.gestion-cabecera .boton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

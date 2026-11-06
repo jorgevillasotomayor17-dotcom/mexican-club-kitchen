@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import { formatoPesos } from '../formato.js'
 import { pedirConSesion } from './api.js'
+import FormularioPlato from './FormularioPlato.jsx'
 
 function GestionPlatos({ onSesionVencida }) {
   const [platos, setPlatos] = useState([])
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState('')
   const [ocupado, setOcupado] = useState(false)
+  // null = formulario cerrado, {} = plato nuevo, un plato = editar ese plato
+  const [platoEnEdicion, setPlatoEnEdicion] = useState(null)
 
   useEffect(() => {
     let activo = true
@@ -51,6 +54,22 @@ function GestionPlatos({ onSesionVencida }) {
     )
   }
 
+  function guardar(datos) {
+    ejecutar(async () => {
+      if (platoEnEdicion._id) {
+        const actualizado = await pedirConSesion(`/api/platos/${platoEnEdicion._id}`, {
+          method: 'PUT',
+          body: datos,
+        })
+        reemplazarPlato(actualizado)
+      } else {
+        const nuevo = await pedirConSesion('/api/platos', { method: 'POST', body: datos })
+        setPlatos((anteriores) => [...anteriores, nuevo])
+      }
+      setPlatoEnEdicion(null)
+    })
+  }
+
   function cambiarDisponible(plato) {
     ejecutar(async () => {
       const actualizado = await pedirConSesion(`/api/platos/${plato._id}`, {
@@ -77,12 +96,30 @@ function GestionPlatos({ onSesionVencida }) {
     <section className="gestion">
       <div className="gestion-cabecera">
         <h2>Platos</h2>
+        <button
+          type="button"
+          className="boton"
+          onClick={() => setPlatoEnEdicion({})}
+          disabled={platoEnEdicion !== null}
+        >
+          Nuevo plato
+        </button>
       </div>
 
       {error && (
         <p className="panel-error" role="alert">
           {error}
         </p>
+      )}
+
+      {platoEnEdicion && (
+        <FormularioPlato
+          key={platoEnEdicion._id ?? 'nuevo'}
+          plato={platoEnEdicion}
+          ocupado={ocupado}
+          onGuardar={guardar}
+          onCancelar={() => setPlatoEnEdicion(null)}
+        />
       )}
 
       {cargando && <p>Cargando platos…</p>}
@@ -104,6 +141,14 @@ function GestionPlatos({ onSesionVencida }) {
             </div>
 
             <div className="gestion-acciones">
+              <button
+                type="button"
+                className="boton-secundario"
+                onClick={() => setPlatoEnEdicion(plato)}
+                disabled={ocupado}
+              >
+                Editar
+              </button>
               <button
                 type="button"
                 className="boton-secundario"
