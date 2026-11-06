@@ -1,0 +1,39 @@
+.tarjeta-plato {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background-color: white;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
+}
+
+.tarjeta-plato img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.tarjeta-plato-cuerpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.5rem;
+  padding: 1.25rem;
+}
+
+.tarjeta-plato h4 {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.tarjeta-plato p {
+  margin: 0;
+}
+
+.tarjeta-plato .tarjeta-plato-precio {
+  margin-top: auto;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-rojo);
+}
