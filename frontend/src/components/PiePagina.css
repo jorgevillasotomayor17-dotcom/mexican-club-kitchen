@@ -8,3 +8,15 @@
 .pie-pagina p {
   margin: 0;
 }
+
+.pie-pagina-admin {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #d8cfc4;
+}
+
+.pie-pagina-admin:hover,
+.pie-pagina-admin:focus-visible {
+  color: white;
+}
