@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
+import { CATEGORIAS } from '../categorias.js'
 import { API_URL } from '../config.js'
 import TarjetaPlato from './TarjetaPlato.jsx'
 import './Menu.css'
-
-const CATEGORIAS = ['Tacos', 'Burritos', 'Quesadillas', 'Bebidas']
 
 function Menu() {
   const [platos, setPlatos] = useState([])

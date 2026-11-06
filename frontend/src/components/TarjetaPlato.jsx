@@ -1,10 +1,5 @@
+import { formatoPesos } from '../formato.js'
 import './TarjetaPlato.css'
-
-const formatoPesos = new Intl.NumberFormat('es-CO', {
-  style: 'currency',
-  currency: 'COP',
-  maximumFractionDigits: 0,
-})
 
 function TarjetaPlato({ plato }) {
   return (
