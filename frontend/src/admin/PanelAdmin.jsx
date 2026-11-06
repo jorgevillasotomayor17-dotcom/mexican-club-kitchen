@@ -1,14 +1,16 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import GestionPlatos from './GestionPlatos.jsx'
 import Login from './Login.jsx'
 import { cerrarSesion, leerSesion } from './sesion.js'
 
 function PanelAdmin() {
   const [sesion, setSesion] = useState(leerSesion)
 
-  function salir() {
+  // useCallback mantiene la misma función entre dibujos, para no repetir la carga de datos
+  const salir = useCallback(() => {
     cerrarSesion()
     setSesion(null)
-  }
+  }, [])
 
   if (!sesion) {
     return <Login onEntrar={setSesion} />
@@ -30,7 +32,7 @@ function PanelAdmin() {
 
       <main className="panel">
         <h1>Panel de administración</h1>
-        <p>Aquí podrás manejar los platos, los pedidos y los mensajes de contacto.</p>
+        <GestionPlatos onSesionVencida={salir} />
       </main>
     </>
   )

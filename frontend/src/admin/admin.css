@@ -122,3 +122,110 @@
   font-size: clamp(1.5rem, 4vw, 2rem);
   color: var(--color-verde);
 }
+
+.panel-error {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  color: #8a0b20;
+  background-color: #fde4e8;
+}
+
+/* Botones pequeños del panel */
+
+.boton-secundario,
+.boton-peligro {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.boton-secundario {
+  border: 1px solid var(--color-verde);
+  color: var(--color-verde);
+  background-color: white;
+}
+
+.boton-secundario:hover,
+.boton-secundario:focus-visible {
+  color: white;
+  background-color: var(--color-verde);
+}
+
+.boton-peligro {
+  border: 1px solid var(--color-rojo);
+  color: var(--color-rojo);
+  background-color: white;
+}
+
+.boton-peligro:hover,
+.boton-peligro:focus-visible {
+  color: white;
+  background-color: var(--color-rojo);
+}
+
+.boton-secundario:disabled,
+.boton-peligro:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+/* Gestión de platos */
+
+.gestion-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.gestion-cabecera h2 {
+  margin: 0;
+  color: var(--color-texto);
+}
+
+.gestion-lista {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gestion-fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-left: 4px solid var(--color-verde);
+  border-radius: 0.5rem;
+  background-color: white;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.08);
+}
+
+.gestion-fila-oculta {
+  border-left-color: #b8ada0;
+  opacity: 0.75;
+}
+
+.gestion-info {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.gestion-info span {
+  font-size: 0.9rem;
+  color: #6b5d4f;
+}
+
+.gestion-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
