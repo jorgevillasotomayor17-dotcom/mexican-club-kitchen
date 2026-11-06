@@ -444,6 +444,39 @@
   cursor: wait;
 }
 
+/* Mensajes de contacto */
+
+.mensaje {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-left: 4px solid #b8ada0;
+  border-radius: 0.5rem;
+  background-color: white;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.08);
+}
+
+.mensaje-nuevo {
+  border-left-color: var(--color-rojo);
+  background-color: #fffaf3;
+}
+
+.mensaje-texto {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.mensajes-contador {
+  margin-left: 0.5rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  vertical-align: middle;
+  color: white;
+  background-color: var(--color-rojo);
+}
+
 .gestion-cabecera .boton {
   border: none;
   font: inherit;

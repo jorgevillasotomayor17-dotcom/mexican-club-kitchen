@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react'
+import GestionMensajes from './GestionMensajes.jsx'
 import GestionPedidos from './GestionPedidos.jsx'
 import GestionPlatos from './GestionPlatos.jsx'
 import Login from './Login.jsx'
@@ -7,6 +8,7 @@ import { cerrarSesion, leerSesion } from './sesion.js'
 const SECCIONES = [
   { id: 'platos', nombre: 'Platos' },
   { id: 'pedidos', nombre: 'Pedidos' },
+  { id: 'mensajes', nombre: 'Mensajes' },
 ]
 
 function PanelAdmin() {
@@ -56,6 +58,7 @@ function PanelAdmin() {
 
         {seccion === 'platos' && <GestionPlatos onSesionVencida={salir} />}
         {seccion === 'pedidos' && <GestionPedidos onSesionVencida={salir} />}
+        {seccion === 'mensajes' && <GestionMensajes onSesionVencida={salir} />}
       </main>
     </>
   )
