@@ -45,9 +45,10 @@
   --fuente-texto: system-ui, 'Segoe UI', Roboto, sans-serif;
   --fuente-titulos: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
 
-  /* Movimiento */
+  /* Movimiento: la curva arranca rápido y frena suave, se siente natural */
+  --curva-suave: cubic-bezier(0.22, 1, 0.36, 1);
   --transicion-rapida: 0.2s ease;
-  --transicion-suave: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  --transicion-suave: 0.4s var(--curva-suave);
 
   color-scheme: dark;
   font-family: var(--fuente-texto);
@@ -255,6 +256,8 @@ section[id] {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    /* Las animaciones infinitas (luces, flotación) se detienen en vez de parpadear */
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     transition-delay: 0s !important;
   }

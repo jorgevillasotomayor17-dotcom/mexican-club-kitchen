@@ -1,34 +1,101 @@
 .portada {
-  min-height: 80vh;
+  position: relative;
+  /* Recorta las luces flotantes para que no generen scroll horizontal */
+  overflow: hidden;
   display: grid;
-  place-content: center;
+  align-items: center;
   justify-items: center;
-  gap: 1rem;
-  padding: 3rem 1rem;
+  gap: 3rem;
+  min-height: min(90vh, 52rem);
+  padding: 3rem 1rem 4rem;
   text-align: center;
 }
 
-.portada > * {
-  animation: entrar 0.7s ease both;
+/* ---------- Luces flotantes (decoración) ---------- */
+
+.portada-luces {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
 }
 
-.portada > :nth-child(2) {
-  animation-delay: 0.15s;
+.portada-luces span {
+  position: absolute;
+  border-radius: 50%;
+  /* Gradientes en vez de filter: blur(), que es mucho más pesado para el navegador */
+  background: radial-gradient(circle, rgb(22 122 80 / 0.45), transparent 65%);
+  animation: flotar-luz 14s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
-.portada > :nth-child(3) {
-  animation-delay: 0.3s;
+.portada-luces span:nth-child(1) {
+  top: -10%;
+  left: -10%;
+  width: 28rem;
+  height: 28rem;
 }
 
-.portada > :nth-child(4) {
-  animation-delay: 0.45s;
+.portada-luces span:nth-child(2) {
+  top: 30%;
+  right: -12%;
+  width: 24rem;
+  height: 24rem;
+  background: radial-gradient(circle, rgb(201 164 92 / 0.28), transparent 65%);
+  animation-duration: 18s;
+  animation-delay: -6s;
+}
+
+.portada-luces span:nth-child(3) {
+  bottom: -20%;
+  left: 30%;
+  width: 20rem;
+  height: 20rem;
+  background: radial-gradient(circle, rgb(201 164 92 / 0.18), transparent 65%);
+  animation-duration: 16s;
+  animation-delay: -3s;
+}
+
+@keyframes flotar-luz {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(3rem, 2rem) scale(1.15);
+  }
+}
+
+/* ---------- Texto ---------- */
+
+.portada-contenido {
+  display: grid;
+  justify-items: center;
+  gap: 1.25rem;
+  max-width: 36rem;
+}
+
+/* Cada parte entra una tras otra */
+.portada-contenido > * {
+  animation: entrar 0.8s var(--curva-suave) both;
+}
+
+.portada-contenido > :nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.portada-contenido > :nth-child(3) {
+  animation-delay: 0.24s;
+}
+
+.portada-contenido > :nth-child(4) {
+  animation-delay: 0.36s;
 }
 
 .portada h1 {
   margin: 0;
-  font-size: clamp(2.25rem, 9vw, 4.5rem);
-  line-height: 1.1;
-  /* Texto con degradado de chile a maíz */
+  font-size: clamp(2.5rem, 8vw, 4.75rem);
+  line-height: 1.05;
+  /* Texto con degradado de crema a dorado */
   color: var(--color-crema);
   background: linear-gradient(90deg, var(--color-crema), var(--color-dorado));
   background-clip: text;
@@ -43,8 +110,9 @@
   background-color: var(--superficie);
   -webkit-backdrop-filter: var(--vidrio-desenfoque);
   backdrop-filter: var(--vidrio-desenfoque);
+  font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-dorado);
 }
@@ -52,5 +120,104 @@
 .portada-texto {
   max-width: 32rem;
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
+  color: var(--color-texto-suave);
+}
+
+.portada-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+/* ---------- Tarjeta de vidrio con la foto ---------- */
+
+.portada-plato {
+  width: min(100%, 26rem);
+  margin: 0;
+  /* Entra un poco después que el texto */
+  animation: entrar-plato 1s var(--curva-suave) 0.4s both;
+}
+
+.portada-plato-marco {
+  position: relative;
+  padding: 0.75rem;
+  border: 1px solid rgb(201 164 92 / 0.35);
+  border-radius: 1.75rem;
+  background-color: var(--superficie);
+  -webkit-backdrop-filter: var(--vidrio-desenfoque);
+  backdrop-filter: var(--vidrio-desenfoque);
+  box-shadow:
+    var(--vidrio-sombra),
+    0 0 60px rgb(201 164 92 / 0.15);
+  /* Flota suavemente arriba y abajo cuando ya terminó de entrar */
+  animation: flotar 6s ease-in-out 1.4s infinite;
+}
+
+.portada-plato img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 1.25rem;
+}
+
+/* Reflejo diagonal sutil sobre el vidrio */
+.portada-plato-marco::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgb(255 255 255 / 0.14), transparent 40%);
+  pointer-events: none;
+}
+
+.portada-plato figcaption {
+  position: absolute;
+  left: 1.5rem;
+  bottom: 1.5rem;
+  padding: 0.4rem 0.9rem;
+  border: var(--vidrio-borde);
+  border-radius: 999px;
+  background-color: rgb(7 28 22 / 0.7);
+  -webkit-backdrop-filter: var(--vidrio-desenfoque);
+  backdrop-filter: var(--vidrio-desenfoque);
+  font-weight: 700;
+  color: var(--color-dorado);
+}
+
+@keyframes entrar-plato {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes flotar {
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ---------- Pantallas anchas: texto a la izquierda y foto a la derecha ---------- */
+
+@media (min-width: 56rem) {
+  .portada {
+    grid-template-columns: 1.1fr 0.9fr;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    text-align: left;
+  }
+
+  .portada-contenido,
+  .portada-acciones {
+    justify-items: start;
+    justify-content: flex-start;
+  }
 }
