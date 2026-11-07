@@ -21,6 +21,11 @@
   text-decoration: none;
 }
 
+/* El menú ocupa el espacio del medio y empuja el botón del pedido a la derecha */
+.encabezado nav {
+  margin-left: auto;
+}
+
 .menu-principal {
   display: flex;
   gap: 1rem;
@@ -53,4 +58,65 @@
 .menu-principal a:hover::after,
 .menu-principal a:focus-visible::after {
   transform: scaleX(1);
+}
+
+.encabezado-carrito {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.9rem;
+  border: none;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  color: white;
+  background-color: var(--color-verde);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.encabezado-carrito:hover,
+.encabezado-carrito:focus-visible {
+  background-color: var(--color-verde-oscuro);
+  transform: translateY(-1px);
+}
+
+.encabezado-contador {
+  display: grid;
+  place-items: center;
+  min-width: 1.4rem;
+  height: 1.4rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--color-texto);
+  background-color: var(--color-maiz);
+  animation: contador-saltar 0.35s ease;
+}
+
+@keyframes contador-saltar {
+  50% {
+    transform: scale(1.35);
+  }
+}
+
+/* En pantallas pequeñas: logo y botón del pedido arriba, el menú abajo a todo lo ancho */
+@media (max-width: 40rem) {
+  .encabezado {
+    column-gap: 0.75rem;
+  }
+
+  .logo {
+    font-size: 1.05rem;
+  }
+
+  .encabezado nav {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .menu-principal {
+    justify-content: center;
+  }
 }

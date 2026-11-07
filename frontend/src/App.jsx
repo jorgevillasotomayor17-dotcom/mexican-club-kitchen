@@ -1,5 +1,6 @@
 import ProveedorCarrito from './carrito/ProveedorCarrito.jsx'
 import Brisi from './components/Brisi.jsx'
+import Carrito from './components/Carrito.jsx'
 import Contacto from './components/Contacto.jsx'
 import Encabezado from './components/Encabezado.jsx'
 import Menu from './components/Menu.jsx'
@@ -22,6 +23,7 @@ function App() {
 
       <PiePagina />
       <Brisi />
+      <Carrito />
     </ProveedorCarrito>
   )
 }

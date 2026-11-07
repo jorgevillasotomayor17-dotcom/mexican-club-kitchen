@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { CarritoContext, MAX_PLATOS_DISTINTOS, MAX_POR_PLATO } from './CarritoContext.js'
 
 const CLAVE = 'mck-carrito'
@@ -75,6 +75,10 @@ function ProveedorCarrito({ children }) {
     setItems((anteriores) => anteriores.filter((item) => item._id !== id))
   }
 
+  // useCallback mantiene la misma función entre renders: el panel la usa dentro de un useEffect
+  const abrir = useCallback(() => setAbierto(true), [])
+  const cerrar = useCallback(() => setAbierto(false), [])
+
   function vaciar() {
     setItems([])
   }
@@ -92,8 +96,8 @@ function ProveedorCarrito({ children }) {
     quitar,
     vaciar,
     abierto,
-    abrir: () => setAbierto(true),
-    cerrar: () => setAbierto(false),
+    abrir,
+    cerrar,
   }
 
   return <CarritoContext.Provider value={valor}>{children}</CarritoContext.Provider>
