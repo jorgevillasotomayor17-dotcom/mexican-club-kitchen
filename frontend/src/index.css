@@ -7,7 +7,8 @@
   --color-noche: #071c16;
   --color-verde-oscuro: #103d2d;
   --color-esmeralda: #167a50;
-  --color-esmeralda-claro: #1d9463;
+  /* Tono del hover: el texto blanco encima mantiene contraste 4.69:1 */
+  --color-esmeralda-claro: #188457;
   --color-dorado: #c9a45c;
   --color-dorado-claro: #ddbf7e;
   --color-crema: #f5f0e6;
@@ -28,7 +29,10 @@
   --superficie-elevada: rgb(16 61 45 / 0.72);
   --superficie-campo: rgb(255 255 255 / 0.06);
   --borde-suave: rgb(255 255 255 / 0.12);
-  --borde-campo: rgb(255 255 255 / 0.22);
+  /* Bordes de campos: contraste 3.4:1 para que se vea dónde escribir (WCAG pide 3:1) */
+  --borde-campo: rgb(255 255 255 / 0.38);
+  --borde-campo-hover: rgb(255 255 255 / 0.55);
+  --color-placeholder: rgb(245 240 230 / 0.6);
   --vidrio-borde: 1px solid var(--borde-suave);
   --vidrio-desenfoque: blur(16px) saturate(140%);
   --vidrio-sombra: 0 10px 40px rgb(0 0 0 / 0.35);
@@ -279,13 +283,13 @@ main section > h2::after {
 
 .formulario-vidrio input::placeholder,
 .formulario-vidrio textarea::placeholder {
-  color: rgb(245 240 230 / 0.45);
+  color: var(--color-placeholder);
 }
 
 .formulario-vidrio input:not([type='checkbox']):hover,
 .formulario-vidrio textarea:hover,
 .formulario-vidrio select:hover {
-  border-color: rgb(255 255 255 / 0.35);
+  border-color: var(--borde-campo-hover);
 }
 
 .formulario-vidrio input:not([type='checkbox']):focus,

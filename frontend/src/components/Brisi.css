@@ -180,11 +180,11 @@
 }
 
 .brisi-formulario input::placeholder {
-  color: rgb(245 240 230 / 0.45);
+  color: var(--color-placeholder);
 }
 
 .brisi-formulario input:hover {
-  border-color: rgb(255 255 255 / 0.35);
+  border-color: var(--borde-campo-hover);
 }
 
 .brisi-formulario input:focus {
