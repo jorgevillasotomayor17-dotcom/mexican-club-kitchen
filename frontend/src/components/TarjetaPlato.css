@@ -1,35 +1,49 @@
+/* El contenedor ocupa todo el alto para que las tarjetas de una fila midan lo mismo */
+.tarjeta-plato-aparecer {
+  height: 100%;
+}
+
 .tarjeta-plato {
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  border-radius: 0.75rem;
   border: var(--vidrio-borde);
+  border-radius: 1.25rem;
   background-color: var(--superficie);
   -webkit-backdrop-filter: var(--vidrio-desenfoque);
   backdrop-filter: var(--vidrio-desenfoque);
   box-shadow: var(--vidrio-sombra);
+  transition:
+    transform var(--transicion-suave),
+    border-color var(--transicion-suave),
+    box-shadow var(--transicion-suave);
 }
 
-.tarjeta-plato.visible {
-  transition: opacity 0.6s ease, transform 0.25s ease, box-shadow 0.25s ease;
+/* Al pasar el mouse: sube, crece un poco y el borde brilla en dorado */
+.tarjeta-plato:hover,
+.tarjeta-plato:focus-within {
+  transform: translateY(-6px) scale(1.01);
+  border-color: rgb(201 164 92 / 0.45);
+  box-shadow:
+    0 18px 44px rgb(0 0 0 / 0.45),
+    0 0 32px rgb(201 164 92 / 0.18);
 }
 
-.tarjeta-plato.visible:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 40px rgb(0 0 0 / 0.45);
+.tarjeta-plato-foto {
+  overflow: hidden;
 }
 
 .tarjeta-plato img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 0.6s var(--curva-suave);
 }
 
-/* La foto se acerca un poco al pasar el mouse; overflow: hidden de la tarjeta la recorta */
+/* La foto se acerca un poco; el overflow: hidden del contenedor la recorta */
 .tarjeta-plato:hover img {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 .tarjeta-plato-cuerpo {
@@ -42,11 +56,16 @@
 
 .tarjeta-plato h4 {
   margin: 0;
-  font-size: 1.125rem;
+  font-family: var(--fuente-titulos);
+  font-size: 1.25rem;
 }
 
 .tarjeta-plato p {
   margin: 0;
+}
+
+.tarjeta-plato-descripcion {
+  color: var(--color-texto-suave);
 }
 
 .tarjeta-plato-pie {
@@ -56,10 +75,40 @@
   justify-content: space-between;
   gap: 0.5rem;
   margin-top: auto;
+  padding-top: 0.5rem;
 }
 
+.tarjeta-plato .tarjeta-plato-precio {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-dorado);
+}
+
+/* min-width: el botón no cambia de tamaño cuando el texto pasa a "✓ Agregado" */
 .tarjeta-plato-agregar {
+  min-width: 8.5rem;
   padding: 0.5rem 1.1rem;
+  text-align: center;
+}
+
+.tarjeta-plato-agregar span {
+  display: inline-block;
+  animation: texto-cambia 0.25s var(--curva-suave);
+}
+
+/* Confirmación: el botón se pone verde por un momento */
+.tarjeta-plato-agregar.agregado,
+.tarjeta-plato-agregar.agregado:hover {
+  color: white;
+  background-color: var(--color-esmeralda);
+  box-shadow: 0 0 20px rgb(22 122 80 / 0.55);
+}
+
+@keyframes texto-cambia {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.9);
+  }
 }
 
 .tarjeta-plato .tarjeta-plato-en-carrito {
@@ -67,10 +116,4 @@
   font-weight: 600;
   color: var(--color-exito);
   animation: entrar 0.3s ease;
-}
-
-.tarjeta-plato .tarjeta-plato-precio {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: var(--color-dorado);
 }

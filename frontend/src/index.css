@@ -193,6 +193,16 @@ section[id] {
   box-shadow: none;
 }
 
+/* Texto que solo leen los lectores de pantalla (invisible en la pantalla) */
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /* ---------- Avisos de error y éxito ---------- */
 
 .aviso-error {
@@ -223,6 +233,11 @@ section[id] {
 .revelar-grupo.visible > * {
   opacity: 1;
   transform: none;
+}
+
+/* Cascada: cada elemento puede traer su propia pausa en la variable --retraso */
+.revelar {
+  transition-delay: var(--retraso, 0s);
 }
 
 /* En un grupo, cada elemento espera un poco más que el anterior */
