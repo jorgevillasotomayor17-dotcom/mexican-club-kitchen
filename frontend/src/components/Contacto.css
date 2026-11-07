@@ -1,6 +1,5 @@
 .contacto {
   padding: 4rem 1rem;
-  background-color: white;
 }
 
 .contacto h2 {
@@ -20,6 +19,12 @@
   gap: 1.25rem;
   max-width: 36rem;
   margin: 0 auto;
+  padding: 2rem 1.5rem;
+  border: var(--vidrio-borde);
+  border-radius: 1.25rem;
+  background-color: var(--vidrio-fondo);
+  backdrop-filter: var(--vidrio-desenfoque);
+  box-shadow: var(--vidrio-sombra);
 }
 
 .contacto-formulario label {
@@ -36,7 +41,7 @@
   border-radius: 0.5rem;
   font: inherit;
   font-weight: 400;
-  background-color: var(--color-crema);
+  background-color: rgb(255 255 255 / 0.8);
 }
 
 .contacto-formulario input:focus,
@@ -52,7 +57,7 @@
 
 .contacto-opcional {
   font-weight: 400;
-  color: #6b5d4f;
+  color: var(--color-texto-suave);
 }
 
 .contacto-formulario .boton {

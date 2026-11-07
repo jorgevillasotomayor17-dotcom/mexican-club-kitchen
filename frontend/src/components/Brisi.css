@@ -16,14 +16,14 @@
   font: inherit;
   font-weight: 700;
   color: white;
-  background-color: var(--color-verde);
-  box-shadow: 0 4px 14px rgb(0 0 0 / 0.25);
+  background: linear-gradient(135deg, var(--color-verde), var(--color-verde-oscuro));
+  box-shadow: 0 4px 14px rgb(19 74 54 / 0.4);
   cursor: pointer;
 }
 
 .brisi-boton:hover,
 .brisi-boton:focus-visible {
-  background-color: #175634;
+  background: var(--color-verde-oscuro);
 }
 
 .brisi-ventana {
@@ -32,9 +32,11 @@
   width: min(22rem, calc(100vw - 2rem));
   height: min(32rem, calc(100dvh - 7rem));
   overflow: hidden;
-  border-radius: 1rem;
-  background-color: white;
-  box-shadow: 0 8px 30px rgb(0 0 0 / 0.25);
+  border: var(--vidrio-borde);
+  border-radius: 1.25rem;
+  background-color: rgb(253 246 236 / 0.75);
+  backdrop-filter: var(--vidrio-desenfoque);
+  box-shadow: 0 8px 30px rgb(42 31 23 / 0.25);
 }
 
 .brisi-cabecera {
@@ -43,7 +45,7 @@
   justify-content: space-between;
   padding: 0.75rem 1rem;
   color: white;
-  background-color: var(--color-verde);
+  background: linear-gradient(135deg, var(--color-verde), var(--color-verde-oscuro));
 }
 
 .brisi-cabecera div {
@@ -81,7 +83,6 @@
   padding: 1rem;
   overflow-y: auto;
   list-style: none;
-  background-color: var(--color-crema);
 }
 
 .brisi-burbuja {
@@ -95,7 +96,8 @@
 .brisi-burbuja-brisi {
   align-self: flex-start;
   border-bottom-left-radius: 0.25rem;
-  background-color: white;
+  border: var(--vidrio-borde);
+  background-color: rgb(255 255 255 / 0.8);
   box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
 }
 
@@ -108,7 +110,7 @@
 
 .brisi-escribiendo {
   font-style: italic;
-  color: #6b5d4f;
+  color: var(--color-texto-suave);
 }
 
 .brisi-error {
@@ -162,5 +164,5 @@
   padding: 0 0.75rem 0.6rem;
   font-size: 0.75rem;
   text-align: center;
-  color: #6b5d4f;
+  color: var(--color-texto-suave);
 }

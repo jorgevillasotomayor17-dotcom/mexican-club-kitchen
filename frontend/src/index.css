@@ -1,8 +1,20 @@
 :root {
-  --color-verde: #1f6f43;
-  --color-rojo: #c8102e;
-  --color-crema: #fff8ec;
-  --color-texto: #2b2118;
+  /* Paleta inspirada en México: agave, chile, maíz y arena */
+  --color-verde: #1e6b4f;
+  --color-verde-oscuro: #134a36;
+  --color-rojo: #d62839;
+  --color-rojo-oscuro: #a91d2c;
+  --color-maiz: #f4a62a;
+  --color-crema: #fdf6ec;
+  --color-arena: #f6e7d3;
+  --color-texto: #2a1f17;
+  --color-texto-suave: #6b5a4b;
+
+  /* Estilo vidrio (glass): fondo blanco transparente, borde claro y desenfoque */
+  --vidrio-fondo: rgb(255 255 255 / 0.55);
+  --vidrio-borde: 1px solid rgb(255 255 255 / 0.7);
+  --vidrio-desenfoque: blur(14px) saturate(160%);
+  --vidrio-sombra: 0 8px 32px rgb(42 31 23 / 0.12);
 
   font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.5;
@@ -23,6 +35,14 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
+  /* Manchas de color suaves detrás de todo: el vidrio las deja ver desenfocadas */
+  background:
+    radial-gradient(circle at 10% 15%, rgb(244 166 42 / 0.35), transparent 40%),
+    radial-gradient(circle at 90% 35%, rgb(214 40 57 / 0.2), transparent 40%),
+    radial-gradient(circle at 15% 75%, rgb(30 107 79 / 0.2), transparent 45%),
+    radial-gradient(circle at 85% 90%, rgb(244 166 42 / 0.3), transparent 40%),
+    var(--color-crema);
+  background-attachment: fixed;
 }
 
 img {
@@ -42,9 +62,10 @@ section[id] {
   color: white;
   text-decoration: none;
   background-color: var(--color-rojo);
+  box-shadow: 0 4px 14px rgb(214 40 57 / 0.35);
 }
 
 .boton:hover,
 .boton:focus-visible {
-  background-color: #a00d25;
+  background-color: var(--color-rojo-oscuro);
 }

@@ -4,8 +4,10 @@
   height: 100%;
   overflow: hidden;
   border-radius: 0.75rem;
-  background-color: white;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
+  border: var(--vidrio-borde);
+  background-color: var(--vidrio-fondo);
+  backdrop-filter: var(--vidrio-desenfoque);
+  box-shadow: var(--vidrio-sombra);
 }
 
 .tarjeta-plato img {
