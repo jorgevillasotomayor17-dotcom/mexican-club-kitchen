@@ -45,9 +45,10 @@
   --boton-sombra: 0 4px 18px rgb(201 164 92 / 0.25);
   --boton-sombra-hover: 0 8px 28px rgb(201 164 92 / 0.45);
 
-  /* Tipografía: fuentes del sistema (no se descarga nada) */
-  --fuente-texto: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --fuente-titulos: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  /* Tipografía: Fraunces y Manrope vienen de Google Fonts (index.html).
+     Si no cargan, se usan las fuentes del sistema que siguen en la lista */
+  --fuente-texto: 'Manrope', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --fuente-titulos: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
 
   /* Movimiento: la curva arranca rápido y frena suave, se siente natural */
   --curva-suave: cubic-bezier(0.22, 1, 0.36, 1);
