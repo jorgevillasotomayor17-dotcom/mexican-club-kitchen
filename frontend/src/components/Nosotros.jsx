@@ -1,3 +1,4 @@
+import { useAparecer } from '../useAparecer.js'
 import './Nosotros.css'
 
 const puntosFuertes = [
@@ -16,6 +17,8 @@ const puntosFuertes = [
 ]
 
 function Nosotros() {
+  const [ref, visible] = useAparecer()
+
   return (
     <section id="nosotros" className="nosotros">
       <h2>Quiénes somos</h2>
@@ -24,7 +27,7 @@ function Nosotros() {
         Cocinamos con cariño y te lo llevamos hasta la puerta de tu casa.
       </p>
 
-      <ul className="nosotros-lista">
+      <ul ref={ref} className={`nosotros-lista revelar-grupo ${visible ? 'visible' : ''}`}>
         {puntosFuertes.map((punto) => (
           <li key={punto.titulo} className="nosotros-tarjeta">
             <h3>{punto.titulo}</h3>

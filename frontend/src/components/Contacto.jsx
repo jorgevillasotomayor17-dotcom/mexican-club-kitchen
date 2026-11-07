@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { API_URL } from '../config.js'
+import { useAparecer } from '../useAparecer.js'
 import './Contacto.css'
 
 const FORMULARIO_VACIO = { nombre: '', email: '', telefono: '', mensaje: '' }
@@ -8,6 +9,7 @@ function Contacto() {
   const [campos, setCampos] = useState(FORMULARIO_VACIO)
   const [estado, setEstado] = useState('inactivo')
   const [aviso, setAviso] = useState('')
+  const [ref, visible] = useAparecer()
 
   function cambiarCampo(evento) {
     const { name, value } = evento.target
@@ -53,7 +55,11 @@ function Contacto() {
         ¿Tienes una pregunta o quieres hacer un pedido especial? Escríbenos.
       </p>
 
-      <form className="contacto-formulario" onSubmit={enviar}>
+      <form
+        ref={ref}
+        className={`contacto-formulario revelar ${visible ? 'visible' : ''}`}
+        onSubmit={enviar}
+      >
         <label>
           Nombre
           <input

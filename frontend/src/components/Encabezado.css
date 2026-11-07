@@ -30,12 +30,27 @@
 }
 
 .menu-principal a {
+  position: relative;
   font-weight: 600;
   color: var(--color-verde-oscuro);
   text-decoration: none;
 }
 
-.menu-principal a:hover,
-.menu-principal a:focus-visible {
-  text-decoration: underline;
+/* Línea que crece desde el centro al pasar el mouse */
+.menu-principal a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.2rem;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--color-rojo);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+
+.menu-principal a:hover::after,
+.menu-principal a:focus-visible::after {
+  transform: scaleX(1);
 }

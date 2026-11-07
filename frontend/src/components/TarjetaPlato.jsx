@@ -1,9 +1,12 @@
 import { formatoPesos } from '../formato.js'
+import { useAparecer } from '../useAparecer.js'
 import './TarjetaPlato.css'
 
 function TarjetaPlato({ plato }) {
+  const [ref, visible] = useAparecer()
+
   return (
-    <article className="tarjeta-plato">
+    <article ref={ref} className={`tarjeta-plato revelar ${visible ? 'visible' : ''}`}>
       {plato.imagen && (
         <img src={plato.imagen} alt={plato.nombre} loading="lazy" />
       )}

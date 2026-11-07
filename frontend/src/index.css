@@ -56,6 +56,7 @@ section[id] {
 
 .boton {
   display: inline-block;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   padding: 0.75rem 1.5rem;
   border-radius: 999px;
   font-weight: 700;
@@ -68,4 +69,60 @@ section[id] {
 .boton:hover,
 .boton:focus-visible {
   background-color: var(--color-rojo-oscuro);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgb(214 40 57 / 0.4);
+}
+
+.boton:active {
+  transform: translateY(0);
+}
+
+/* Aparecer al bajar: empieza invisible y un poco más abajo */
+.revelar,
+.revelar-grupo > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.revelar.visible,
+.revelar-grupo.visible > * {
+  opacity: 1;
+  transform: none;
+}
+
+/* En un grupo, cada elemento espera un poco más que el anterior */
+.revelar-grupo > :nth-child(2) {
+  transition-delay: 0.15s;
+}
+
+.revelar-grupo > :nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+/* Entrada al cargar la página */
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Respeta a quien pidió en su sistema menos movimiento en pantalla */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
 }
