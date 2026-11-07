@@ -120,7 +120,9 @@ function Brisi() {
             </button>
           </form>
 
-          <p className="brisi-aviso">Brisi es una IA y puede equivocarse.</p>
+          <p className="brisi-aviso">
+            Brisi es una IA y puede equivocarse. No compartas datos personales.
+          </p>
         </section>
       )}
 
