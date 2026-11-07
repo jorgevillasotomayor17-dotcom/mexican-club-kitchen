@@ -8,11 +8,22 @@
   justify-content: space-between;
   gap: 0.5rem 1.5rem;
   padding: 0.75rem 1rem;
-  border-bottom: var(--vidrio-borde);
-  background-color: var(--superficie-elevada);
+  /* Arriba del todo la barra es casi transparente */
+  border-bottom: 1px solid transparent;
+  background-color: rgb(7 28 22 / 0.35);
   -webkit-backdrop-filter: var(--vidrio-desenfoque);
   backdrop-filter: var(--vidrio-desenfoque);
-  box-shadow: 0 4px 24px rgb(0 0 0 / 0.25);
+  transition:
+    background-color var(--transicion-suave),
+    border-color var(--transicion-suave),
+    box-shadow var(--transicion-suave);
+}
+
+/* Al bajar, la barra se vuelve más sólida y aparece su borde y su sombra */
+.encabezado-scrollado {
+  border-bottom-color: var(--borde-suave);
+  background-color: rgb(7 28 22 / 0.82);
+  box-shadow: 0 8px 32px rgb(0 0 0 / 0.35);
 }
 
 .logo {
@@ -39,8 +50,15 @@
 .menu-principal a {
   position: relative;
   font-weight: 600;
-  color: var(--color-texto);
+  color: var(--color-texto-suave);
   text-decoration: none;
+  transition: color var(--transicion-rapida);
+}
+
+.menu-principal a:hover,
+.menu-principal a:focus-visible,
+.menu-principal a[aria-current] {
+  color: var(--color-texto);
 }
 
 /* Línea que crece desde el centro al pasar el mouse */
@@ -54,12 +72,18 @@
   border-radius: 2px;
   background-color: var(--color-dorado);
   transform: scaleX(0);
-  transition: transform 0.25s ease;
+  transition: transform var(--transicion-suave);
 }
 
 .menu-principal a:hover::after,
-.menu-principal a:focus-visible::after {
+.menu-principal a:focus-visible::after,
+.menu-principal a[aria-current]::after {
   transform: scaleX(1);
+}
+
+/* La sección donde estás: línea dorada que brilla */
+.menu-principal a[aria-current]::after {
+  box-shadow: 0 0 10px rgb(201 164 92 / 0.8);
 }
 
 .encabezado-carrito {
@@ -74,13 +98,21 @@
   color: white;
   background-color: var(--color-esmeralda);
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition:
+    background-color var(--transicion-rapida),
+    transform var(--transicion-rapida),
+    box-shadow var(--transicion-rapida);
 }
 
 .encabezado-carrito:hover,
 .encabezado-carrito:focus-visible {
   background-color: var(--color-esmeralda-claro);
   transform: translateY(-1px);
+  box-shadow: 0 0 18px rgb(22 122 80 / 0.6);
+}
+
+.encabezado-carrito:active {
+  transform: translateY(0) scale(0.97);
 }
 
 .encabezado-contador {
