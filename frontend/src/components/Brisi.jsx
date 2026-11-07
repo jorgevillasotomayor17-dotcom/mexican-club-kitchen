@@ -16,8 +16,12 @@ function Brisi() {
   const [texto, setTexto] = useState('')
   const [escribiendo, setEscribiendo] = useState(false)
   const [error, setError] = useState('')
+  // true mientras corre la animación de salida de la ventana
+  const [saliendo, setSaliendo] = useState(false)
   const listaRef = useRef(null)
   const campoRef = useRef(null)
+  const ventanaRef = useRef(null)
+  const botonRef = useRef(null)
   const { agregar, abrir } = useCarrito()
 
   // Baja hasta el último mensaje cada vez que llega uno nuevo
@@ -84,10 +88,38 @@ function Brisi() {
     )
   }
 
+  function alternarChat() {
+    if (!abierto) {
+      setAbierto(true)
+    } else {
+      // Cerrar = empezar la animación de salida; alTerminarAnimacion lo cierra de verdad
+      setSaliendo(true)
+    }
+  }
+
+  function alTerminarAnimacion(evento) {
+    // Ignora las animaciones de los mensajes de adentro
+    if (evento.target !== evento.currentTarget || !saliendo) return
+
+    // Si el foco estaba dentro del chat, vuelve al botón para no perderse
+    if (ventanaRef.current?.contains(document.activeElement)) {
+      botonRef.current?.focus()
+    }
+    setSaliendo(false)
+    setAbierto(false)
+  }
+
   return (
     <div className="brisi">
       {abierto && (
-        <section className="brisi-ventana" aria-label="Chat con Brisi">
+        <section
+          ref={ventanaRef}
+          className={`brisi-ventana ${saliendo ? 'saliendo' : ''}`}
+          aria-label="Chat con Brisi"
+          onAnimationEnd={alTerminarAnimacion}
+          // Escape cierra el chat cuando el foco está dentro de él
+          onKeyDown={(evento) => evento.key === 'Escape' && setSaliendo(true)}
+        >
           <header className="brisi-cabecera">
             <div>
               <strong>Brisi</strong>
@@ -96,7 +128,7 @@ function Brisi() {
             <button
               type="button"
               className="brisi-cerrar"
-              onClick={() => setAbierto(false)}
+              onClick={() => setSaliendo(true)}
               aria-label="Cerrar el chat"
             >
               ×
@@ -168,7 +200,8 @@ function Brisi() {
       <button
         type="button"
         className="brisi-boton"
-        onClick={() => setAbierto(!abierto)}
+        ref={botonRef}
+        onClick={alternarChat}
         aria-expanded={abierto}
       >
         {abierto ? 'Cerrar chat' : '💬 Habla con Brisi'}

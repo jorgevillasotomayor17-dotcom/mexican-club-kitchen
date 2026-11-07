@@ -59,7 +59,19 @@
   backdrop-filter: var(--vidrio-desenfoque);
   box-shadow: var(--vidrio-sombra);
   transform-origin: bottom right;
-  animation: brisi-abrir 0.25s ease;
+  animation: brisi-abrir 0.35s var(--curva-suave);
+}
+
+/* Al cerrar, la ventana se encoge hacia el botón */
+.brisi-ventana.saliendo {
+  animation: brisi-cerrar 0.2s ease-in forwards;
+}
+
+@keyframes brisi-cerrar {
+  to {
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+  }
 }
 
 .brisi-cabecera {
@@ -162,12 +174,23 @@
   font: inherit;
   color: inherit;
   background-color: var(--superficie-campo);
+  transition:
+    border-color var(--transicion-rapida),
+    box-shadow var(--transicion-rapida);
+}
+
+.brisi-formulario input::placeholder {
+  color: rgb(245 240 230 / 0.45);
+}
+
+.brisi-formulario input:hover {
+  border-color: rgb(255 255 255 / 0.35);
 }
 
 .brisi-formulario input:focus {
   border-color: var(--color-dorado);
-  outline: 2px solid var(--color-dorado);
-  outline-offset: 1px;
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(201 164 92 / 0.3);
 }
 
 .brisi-formulario button {
@@ -179,6 +202,18 @@
   color: var(--color-noche);
   background-color: var(--color-dorado);
   cursor: pointer;
+  transition:
+    background-color var(--transicion-rapida),
+    transform var(--transicion-rapida);
+}
+
+.brisi-formulario button:hover:enabled,
+.brisi-formulario button:focus-visible {
+  background-color: var(--color-dorado-claro);
+}
+
+.brisi-formulario button:active:enabled {
+  transform: scale(0.96);
 }
 
 .brisi-formulario button:disabled {
