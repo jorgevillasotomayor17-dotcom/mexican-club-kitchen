@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
+import { useCarrito } from '../carrito/CarritoContext.js'
 import { API_URL } from '../config.js'
+import { formatoPesos } from '../formato.js'
 import './Brisi.css'
 
 const SALUDO = {
@@ -16,6 +18,7 @@ function Brisi() {
   const [error, setError] = useState('')
   const listaRef = useRef(null)
   const campoRef = useRef(null)
+  const { agregar, abrir } = useCarrito()
 
   // Baja hasta el último mensaje cada vez que llega uno nuevo
   useEffect(() => {
@@ -48,7 +51,8 @@ function Brisi() {
       const respuesta = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mensajes: historial }),
+        // Al servidor solo le enviamos quién habló y qué dijo
+        body: JSON.stringify({ mensajes: historial.map(({ rol, texto }) => ({ rol, texto })) }),
       })
       const datos = await respuesta.json()
 
@@ -56,7 +60,11 @@ function Brisi() {
         throw new Error(datos.mensaje || 'Brisi tuvo un problema. Intenta de nuevo.')
       }
 
-      setMensajes((anteriores) => [...anteriores, { rol: 'brisi', texto: datos.respuesta }])
+      setMensajes((anteriores) => [
+        ...anteriores,
+        // platos: lo que Brisi propone agregar; agregado: si la persona ya tocó el botón
+        { rol: 'brisi', texto: datos.respuesta, platos: datos.platos ?? [], agregado: false },
+      ])
     } catch (err) {
       setError(
         err instanceof TypeError
@@ -66,6 +74,14 @@ function Brisi() {
     } finally {
       setEscribiendo(false)
     }
+  }
+
+  // La persona confirma: los platos que propuso Brisi entran al carrito
+  function agregarSugerencia(indice) {
+    mensajes[indice].platos.forEach((plato) => agregar(plato, plato.cantidad))
+    setMensajes((anteriores) =>
+      anteriores.map((mensaje, i) => (i === indice ? { ...mensaje, agregado: true } : mensaje))
+    )
   }
 
   return (
@@ -91,6 +107,29 @@ function Brisi() {
             {mensajes.map((mensaje, indice) => (
               <li key={indice} className={`brisi-burbuja brisi-burbuja-${mensaje.rol}`}>
                 {mensaje.texto}
+
+                {mensaje.platos?.length > 0 && (
+                  <div className="brisi-sugerencia">
+                    <ul>
+                      {mensaje.platos.map((plato) => (
+                        <li key={plato._id}>
+                          {plato.cantidad} × {plato.nombre}
+                          <span>{formatoPesos.format(plato.precio * plato.cantidad)}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {mensaje.agregado ? (
+                      <button type="button" className="brisi-sugerencia-listo" onClick={abrir}>
+                        ✓ Agregado · Ver pedido
+                      </button>
+                    ) : (
+                      <button type="button" onClick={() => agregarSugerencia(indice)}>
+                        Agregar al pedido
+                      </button>
+                    )}
+                  </div>
+                )}
               </li>
             ))}
             {escribiendo && (
