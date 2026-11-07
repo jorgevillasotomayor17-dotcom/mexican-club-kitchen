@@ -223,6 +223,92 @@ section[id] {
   white-space: nowrap;
 }
 
+/* ---------- Títulos de sección ---------- */
+
+/* Línea dorada decorativa debajo de cada título de sección */
+main section > h2::after {
+  content: '';
+  display: block;
+  width: 3.5rem;
+  height: 2px;
+  margin: 0.75rem auto 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-dorado), transparent);
+}
+
+/* ---------- Formularios (carrito y contacto) ---------- */
+
+.formulario-vidrio label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+/* El fieldset solo agrupa los campos (para desactivarlos juntos): sin borde ni márgenes */
+.formulario-vidrio fieldset {
+  display: grid;
+  gap: inherit;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  transition: opacity var(--transicion-rapida);
+}
+
+.formulario-vidrio fieldset:disabled {
+  opacity: 0.6;
+}
+
+.formulario-vidrio input,
+.formulario-vidrio textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--borde-campo);
+  border-radius: 0.6rem;
+  font: inherit;
+  font-weight: 400;
+  color: inherit;
+  background-color: var(--superficie-campo);
+  transition:
+    border-color var(--transicion-rapida),
+    background-color var(--transicion-rapida),
+    box-shadow var(--transicion-rapida);
+}
+
+.formulario-vidrio input::placeholder,
+.formulario-vidrio textarea::placeholder {
+  color: rgb(245 240 230 / 0.45);
+}
+
+.formulario-vidrio input:hover,
+.formulario-vidrio textarea:hover {
+  border-color: rgb(255 255 255 / 0.35);
+}
+
+.formulario-vidrio input:focus,
+.formulario-vidrio textarea:focus {
+  border-color: var(--color-dorado);
+  outline: none;
+  background-color: rgb(255 255 255 / 0.09);
+  box-shadow: 0 0 0 3px rgb(201 164 92 / 0.3);
+}
+
+/* :user-invalid marca el error solo después de que la persona tocó el campo,
+   no apenas se abre el formulario */
+.formulario-vidrio input:user-invalid,
+.formulario-vidrio textarea:user-invalid {
+  border-color: var(--color-error);
+}
+
+.formulario-vidrio input:disabled,
+.formulario-vidrio textarea:disabled {
+  cursor: not-allowed;
+}
+
+.formulario-vidrio .boton:disabled {
+  cursor: wait;
+}
+
 /* ---------- Avisos de error y éxito ---------- */
 
 .aviso-error {

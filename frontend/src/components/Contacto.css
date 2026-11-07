@@ -12,6 +12,7 @@
 .contacto-intro {
   margin: 0 0 2rem;
   text-align: center;
+  color: var(--color-texto-suave);
 }
 
 .contacto-formulario {
@@ -28,31 +29,6 @@
   box-shadow: var(--vidrio-sombra);
 }
 
-.contacto-formulario label {
-  display: grid;
-  gap: 0.35rem;
-  font-weight: 600;
-}
-
-.contacto-formulario input,
-.contacto-formulario textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid var(--borde-campo);
-  border-radius: 0.5rem;
-  font: inherit;
-  font-weight: 400;
-  color: inherit;
-  background-color: var(--superficie-campo);
-}
-
-.contacto-formulario input:focus,
-.contacto-formulario textarea:focus {
-  border-color: var(--color-dorado);
-  outline: 2px solid var(--color-dorado);
-  outline-offset: 1px;
-}
-
 .contacto-formulario textarea {
   resize: vertical;
 }
@@ -66,14 +42,11 @@
   justify-self: start;
 }
 
-.contacto-formulario .boton:disabled {
-  cursor: wait;
-}
-
 .contacto-aviso {
   margin: 0;
   padding: 1rem;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
+  animation: entrar 0.3s var(--curva-suave);
 }
 
 .contacto-aviso-enviado {

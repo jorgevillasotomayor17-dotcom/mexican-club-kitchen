@@ -57,61 +57,65 @@ function Contacto() {
 
       <form
         ref={ref}
-        className={`contacto-formulario revelar ${visible ? 'visible' : ''}`}
+        className={`contacto-formulario formulario-vidrio revelar ${visible ? 'visible' : ''}`}
         onSubmit={enviar}
       >
-        <label>
-          Nombre
-          <input
-            name="nombre"
-            value={campos.nombre}
-            onChange={cambiarCampo}
-            required
-            maxLength={80}
-            autoComplete="name"
-          />
-        </label>
+        {/* Mientras se envía, el fieldset desactiva todos los campos de una vez */}
+        <fieldset disabled={enviando}>
+          <label>
+            Nombre
+            <input
+              name="nombre"
+              value={campos.nombre}
+              onChange={cambiarCampo}
+              required
+              maxLength={80}
+              autoComplete="name"
+            />
+          </label>
 
-        <label>
-          Correo electrónico
-          <input
-            type="email"
-            name="email"
-            value={campos.email}
-            onChange={cambiarCampo}
-            required
-            maxLength={120}
-            autoComplete="email"
-          />
-        </label>
+          <label>
+            Correo electrónico
+            <input
+              type="email"
+              name="email"
+              value={campos.email}
+              onChange={cambiarCampo}
+              required
+              maxLength={120}
+              autoComplete="email"
+            />
+          </label>
 
-        <label>
-          <span>
-            Teléfono <span className="contacto-opcional">(opcional)</span>
-          </span>
-          <input
-            type="tel"
-            name="telefono"
-            value={campos.telefono}
-            onChange={cambiarCampo}
-            maxLength={20}
-            autoComplete="tel"
-          />
-        </label>
+          <label>
+            <span>
+              Teléfono <span className="contacto-opcional">(opcional)</span>
+            </span>
+            <input
+              type="tel"
+              name="telefono"
+              value={campos.telefono}
+              onChange={cambiarCampo}
+              maxLength={20}
+              autoComplete="tel"
+            />
+          </label>
 
-        <label>
-          Mensaje
-          <textarea
-            name="mensaje"
-            value={campos.mensaje}
-            onChange={cambiarCampo}
-            required
-            maxLength={1000}
-            rows={5}
-          />
-        </label>
+          <label>
+            Mensaje
+            <textarea
+              name="mensaje"
+              value={campos.mensaje}
+              onChange={cambiarCampo}
+              required
+              maxLength={1000}
+              rows={5}
+            />
+          </label>
+        </fieldset>
 
-        <button type="submit" className="boton" disabled={enviando}>
+        {/* aria-busy: avisa que está trabajando; el CSS le pone un círculo que gira */}
+        <button type="submit" className="boton" disabled={enviando} aria-busy={enviando}>
           {enviando ? 'Enviando…' : 'Enviar mensaje'}
         </button>
 

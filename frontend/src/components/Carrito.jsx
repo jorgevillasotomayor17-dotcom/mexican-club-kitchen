@@ -214,11 +214,11 @@ function Carrito() {
               <strong>{formatoPesos.format(total)}</strong>
             </p>
 
-            <form className="carrito-formulario" onSubmit={enviarPedido}>
+            <form className="carrito-formulario formulario-vidrio" onSubmit={enviarPedido}>
               <h3>¿A dónde te lo llevamos?</h3>
 
               {/* Mientras se envía, el fieldset desactiva todos los campos de una vez */}
-              <fieldset className="carrito-campos" disabled={enviando}>
+              <fieldset disabled={enviando}>
                 <label>
                   Nombre
                   <input
