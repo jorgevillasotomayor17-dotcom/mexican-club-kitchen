@@ -132,7 +132,7 @@ El frontend usa `VITE_API_URL` (dirección del backend). Si no existe, usa `http
 | `POST` | `/api/pedidos` | Público (5 por hora) | Crear un pedido |
 | `GET` | `/api/pedidos` | Admin | Ver los pedidos |
 | `PATCH` | `/api/pedidos/:id/estado` | Admin | Cambiar el estado de un pedido |
-| `POST` | `/api/mensajes` | Público | Enviar un mensaje de contacto |
+| `POST` | `/api/mensajes` | Público (5 por hora) | Enviar un mensaje de contacto |
 | `GET` | `/api/mensajes` | Admin | Ver los mensajes |
 | `PATCH` | `/api/mensajes/:id/leido` | Admin | Marcar un mensaje como leído |
 | `POST` | `/api/chat` | Público (20 cada 10 min) | Hablar con Brisi |
@@ -145,7 +145,7 @@ Las rutas de administrador necesitan el encabezado `Authorization: Bearer <token
 - **No hay registro público**: el administrador se crea con un script.
 - **Tokens JWT** que vencen en 8 horas.
 - **Precios calculados en el servidor**: al crear un pedido, el backend busca los precios en la base de datos y no confía en lo que envía el navegador.
-- **Límite de peticiones por IP** en los pedidos y en Brisi, para evitar abusos.
+- **Límite de peticiones por IP** en todas las rutas públicas que guardan datos o gastan recursos: pedidos, mensajes de contacto y Brisi.
 - **CORS** limitado a la dirección del frontend.
 - **La IA solo propone**: el servidor revisa que los platos de Brisi existan, y la persona confirma con un botón antes de que entren al carrito.
 

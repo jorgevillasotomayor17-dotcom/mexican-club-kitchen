@@ -1,11 +1,21 @@
 import { Router } from 'express';
+import { rateLimit } from 'express-rate-limit';
 import mongoose from 'mongoose';
 import { requiereAdmin } from '../middleware/auth.js';
 import Mensaje from '../models/Mensaje.js';
 
 const router = Router();
 
-router.post('/', async (req, res) => {
+// Cada persona (por IP) puede enviar 5 mensajes por hora: evita que llenen la base de datos con mensajes falsos
+const limitadorMensajes = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  limit: 5,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  message: { mensaje: 'Ya enviaste varios mensajes. Te responderemos pronto.' },
+});
+
+router.post('/', limitadorMensajes, async (req, res) => {
   const { nombre, email, telefono, mensaje } = req.body ?? {};
 
   try {
