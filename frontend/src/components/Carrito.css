@@ -6,7 +6,13 @@
   display: flex;
   justify-content: flex-end;
   background-color: rgb(0 0 0 / 0.55);
-  animation: carrito-oscurecer 0.25s ease;
+  animation: carrito-oscurecer 0.3s ease;
+}
+
+/* Al cerrar: el fondo se aclara y el panel vuelve a salir por la derecha.
+   forwards: se queda en el último cuadro hasta que React lo quite */
+.carrito-fondo.saliendo {
+  animation: carrito-aclarar 0.25s ease forwards;
 }
 
 /* Panel lateral de vidrio que entra desde la derecha */
@@ -21,7 +27,11 @@
   -webkit-backdrop-filter: var(--vidrio-desenfoque);
   backdrop-filter: var(--vidrio-desenfoque);
   box-shadow: -8px 0 40px rgb(0 0 0 / 0.5);
-  animation: carrito-entrar 0.3s ease;
+  animation: carrito-entrar 0.4s var(--curva-suave);
+}
+
+.carrito.saliendo {
+  animation: carrito-salir 0.25s ease-in forwards;
 }
 
 @keyframes carrito-oscurecer {
@@ -32,6 +42,18 @@
 
 @keyframes carrito-entrar {
   from {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes carrito-aclarar {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes carrito-salir {
+  to {
     transform: translateX(100%);
   }
 }
@@ -187,6 +209,21 @@
   color: var(--color-dorado);
 }
 
+/* El fieldset solo agrupa los campos: sin borde ni márgenes propios */
+.carrito-campos {
+  display: grid;
+  gap: 0.9rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  transition: opacity var(--transicion-rapida);
+}
+
+.carrito-campos:disabled {
+  opacity: 0.6;
+}
+
 .carrito-formulario label {
   display: grid;
   gap: 0.3rem;
@@ -202,12 +239,35 @@
   font-weight: 400;
   color: inherit;
   background-color: var(--superficie-campo);
+  transition:
+    border-color var(--transicion-rapida),
+    background-color var(--transicion-rapida),
+    box-shadow var(--transicion-rapida);
+}
+
+.carrito-formulario input::placeholder {
+  color: rgb(245 240 230 / 0.45);
+}
+
+.carrito-formulario input:hover {
+  border-color: rgb(255 255 255 / 0.35);
 }
 
 .carrito-formulario input:focus {
   border-color: var(--color-dorado);
-  outline: 2px solid var(--color-dorado);
-  outline-offset: 1px;
+  outline: none;
+  background-color: rgb(255 255 255 / 0.09);
+  box-shadow: 0 0 0 3px rgb(201 164 92 / 0.3);
+}
+
+/* :user-invalid solo marca el error después de que la persona tocó el campo,
+   no apenas abre el formulario */
+.carrito-formulario input:user-invalid {
+  border-color: var(--color-error);
+}
+
+.carrito-formulario input:disabled {
+  cursor: not-allowed;
 }
 
 .carrito-formulario .boton:disabled {
@@ -215,6 +275,7 @@
 }
 
 .carrito-error {
+  animation: entrar 0.3s var(--curva-suave);
   margin: 0;
   padding: 0.75rem;
   border-radius: 0.5rem;

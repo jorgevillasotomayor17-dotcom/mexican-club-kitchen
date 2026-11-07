@@ -185,6 +185,26 @@ section[id] {
   transform: translateY(0) scale(0.98);
 }
 
+/* Botón trabajando (aria-busy): aparece un círculo que gira antes del texto */
+.boton[aria-busy='true']::before {
+  content: '';
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  margin-right: 0.5em;
+  vertical-align: -0.1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: girar 0.7s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .boton:disabled,
 .boton-vidrio:disabled {
   opacity: 0.5;

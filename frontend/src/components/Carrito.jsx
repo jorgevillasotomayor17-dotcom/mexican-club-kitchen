@@ -6,27 +6,68 @@ import './Carrito.css'
 
 const DATOS_VACIOS = { cliente: '', telefono: '', direccion: '' }
 
+// Elementos a los que se puede llegar con la tecla Tab
+// (:enabled también descarta los campos de un fieldset desactivado)
+const ENFOCABLES = 'button:enabled, input:enabled, a[href], [tabindex]:not([tabindex="-1"])'
+
 function Carrito() {
   const { items, total, abierto, cerrar, cambiarCantidad, quitar, vaciar } = useCarrito()
   const [datos, setDatos] = useState(DATOS_VACIOS)
   const [enviando, setEnviando] = useState(false)
   const [error, setError] = useState('')
   const [pedidoHecho, setPedidoHecho] = useState(null)
+  // true mientras corre la animación de salida; al terminar, el panel se cierra de verdad
+  const [saliendo, setSaliendo] = useState(false)
   const cerrarRef = useRef(null)
+  const panelRef = useRef(null)
 
-  // Al abrir el panel: el foco va al botón de cerrar y la tecla Escape lo cierra
   useEffect(() => {
     if (!abierto) return
 
+    // Se recuerda quién tenía el foco (por ejemplo, el botón "Pedido") para devolvérselo al cerrar
+    const enfocadoAntes = document.activeElement
     cerrarRef.current?.focus()
 
+    // Mientras el panel está abierto, la página de atrás no se desplaza
+    const overflowAnterior = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
     function alPresionarTecla(evento) {
-      if (evento.key === 'Escape') cerrar()
+      if (evento.key === 'Escape') {
+        setSaliendo(true)
+        return
+      }
+
+      // Foco atrapado: con Tab se da la vuelta dentro del panel, sin salir a la página de atrás
+      if (evento.key !== 'Tab' || !panelRef.current) return
+
+      const enfocables = panelRef.current.querySelectorAll(ENFOCABLES)
+      if (enfocables.length === 0) return
+
+      const primero = enfocables[0]
+      const ultimo = enfocables[enfocables.length - 1]
+      const actual = document.activeElement
+
+      if (!panelRef.current.contains(actual)) {
+        evento.preventDefault()
+        primero.focus()
+      } else if (evento.shiftKey && actual === primero) {
+        evento.preventDefault()
+        ultimo.focus()
+      } else if (!evento.shiftKey && actual === ultimo) {
+        evento.preventDefault()
+        primero.focus()
+      }
     }
 
     document.addEventListener('keydown', alPresionarTecla)
-    return () => document.removeEventListener('keydown', alPresionarTecla)
-  }, [abierto, cerrar])
+
+    return () => {
+      document.removeEventListener('keydown', alPresionarTecla)
+      document.body.style.overflow = overflowAnterior
+      enfocadoAntes?.focus?.()
+    }
+  }, [abierto])
 
   if (!abierto) return null
 
@@ -35,7 +76,17 @@ function Carrito() {
     setDatos((anteriores) => ({ ...anteriores, [name]: value }))
   }
 
+  // Cerrar = empezar la animación de salida
   function cerrarPanel() {
+    setSaliendo(true)
+  }
+
+  // Cuando termina la animación de salida del panel, se cierra de verdad
+  function alTerminarAnimacion(evento) {
+    // Ignora las animaciones de los elementos de adentro (por ejemplo, cada plato)
+    if (evento.target !== evento.currentTarget || !saliendo) return
+
+    setSaliendo(false)
     setPedidoHecho(null)
     setError('')
     cerrar()
@@ -77,13 +128,15 @@ function Carrito() {
   }
 
   return (
-    <div className="carrito-fondo" onClick={cerrarPanel}>
+    <div className={`carrito-fondo ${saliendo ? 'saliendo' : ''}`} onClick={cerrarPanel}>
       <aside
-        className="carrito"
+        ref={panelRef}
+        className={`carrito ${saliendo ? 'saliendo' : ''}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="carrito-titulo"
         onClick={(evento) => evento.stopPropagation()}
+        onAnimationEnd={alTerminarAnimacion}
       >
         <header className="carrito-cabecera">
           <h2 id="carrito-titulo">Tu pedido</h2>
@@ -164,43 +217,46 @@ function Carrito() {
             <form className="carrito-formulario" onSubmit={enviarPedido}>
               <h3>¿A dónde te lo llevamos?</h3>
 
-              <label>
-                Nombre
-                <input
-                  name="cliente"
-                  value={datos.cliente}
-                  onChange={cambiarDato}
-                  maxLength={80}
-                  autoComplete="name"
-                  required
-                />
-              </label>
+              {/* Mientras se envía, el fieldset desactiva todos los campos de una vez */}
+              <fieldset className="carrito-campos" disabled={enviando}>
+                <label>
+                  Nombre
+                  <input
+                    name="cliente"
+                    value={datos.cliente}
+                    onChange={cambiarDato}
+                    maxLength={80}
+                    autoComplete="name"
+                    required
+                  />
+                </label>
 
-              <label>
-                Teléfono
-                <input
-                  type="tel"
-                  name="telefono"
-                  value={datos.telefono}
-                  onChange={cambiarDato}
-                  maxLength={20}
-                  autoComplete="tel"
-                  required
-                />
-              </label>
+                <label>
+                  Teléfono
+                  <input
+                    type="tel"
+                    name="telefono"
+                    value={datos.telefono}
+                    onChange={cambiarDato}
+                    maxLength={20}
+                    autoComplete="tel"
+                    required
+                  />
+                </label>
 
-              <label>
-                Dirección
-                <input
-                  name="direccion"
-                  value={datos.direccion}
-                  onChange={cambiarDato}
-                  maxLength={200}
-                  autoComplete="street-address"
-                  placeholder="Calle, número y barrio"
-                  required
-                />
-              </label>
+                <label>
+                  Dirección
+                  <input
+                    name="direccion"
+                    value={datos.direccion}
+                    onChange={cambiarDato}
+                    maxLength={200}
+                    autoComplete="street-address"
+                    placeholder="Calle, número y barrio"
+                    required
+                  />
+                </label>
+              </fieldset>
 
               {error && (
                 <p className="carrito-error" role="alert">
@@ -208,7 +264,8 @@ function Carrito() {
                 </p>
               )}
 
-              <button type="submit" className="boton" disabled={enviando}>
+              {/* aria-busy: avisa que está trabajando; el CSS le pone un círculo que gira */}
+              <button type="submit" className="boton" disabled={enviando} aria-busy={enviando}>
                 {enviando ? 'Enviando…' : `Hacer pedido · ${formatoPesos.format(total)}`}
               </button>
 
