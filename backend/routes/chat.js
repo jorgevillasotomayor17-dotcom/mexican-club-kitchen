@@ -5,8 +5,9 @@ import Plato from '../models/Plato.js';
 
 const router = Router();
 
-// Modelo de Google con nivel gratuito
-const MODELO = 'gemini-3.8-flash';
+// Modelos de Google con nivel gratuito: si el primero está saturado, se intenta con el segundo
+const MODELOS = ['gemini-3.6-flash', 'gemini-3.5-flash-lite'];
+const ESPERA_MAXIMA_MS = 20000;
 const MAX_MENSAJES = 10;
 const MAX_CARACTERES = 500;
 
@@ -22,8 +23,38 @@ const limitador = rateLimit({
 // El cliente se crea la primera vez que se usa, cuando ya existe la clave
 let cliente = null;
 function obtenerCliente() {
-  if (!cliente) cliente = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+  if (!cliente) {
+    cliente = new GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY,
+      httpOptions: { timeout: ESPERA_MAXIMA_MS },
+    });
+  }
   return cliente;
+}
+
+// El modelo está saturado (503), Google tardó demasiado (504) o se agotó nuestra espera (AbortError)
+function estaSaturado(error) {
+  return (
+    error?.name === 'AbortError' ||
+    (error instanceof ApiError && (error.status === 503 || error.status === 504))
+  );
+}
+
+// Pregunta al primer modelo; si está saturado, prueba con el siguiente
+async function preguntarAGemini(peticion) {
+  let ultimoError;
+
+  for (const modelo of MODELOS) {
+    try {
+      return await obtenerCliente().models.generateContent({ ...peticion, model: modelo });
+    } catch (error) {
+      if (!estaSaturado(error)) throw error;
+      console.warn(`El modelo ${modelo} está saturado o tardó demasiado. Probando el siguiente.`);
+      ultimoError = error;
+    }
+  }
+
+  throw ultimoError;
 }
 
 function crearInstrucciones(platos) {
@@ -97,8 +128,7 @@ router.post('/', limitador, async (req, res) => {
   try {
     const platos = await Plato.find({ disponible: true }).sort({ categoria: 1, nombre: 1 }).lean();
 
-    const respuesta = await obtenerCliente().models.generateContent({
-      model: MODELO,
+    const respuesta = await preguntarAGemini({
       contents: mensajes,
       config: {
         systemInstruction: crearInstrucciones(platos),
@@ -125,6 +155,9 @@ router.post('/', limitador, async (req, res) => {
       respuesta: texto || 'Perdón, no te entendí bien. ¿Me lo repites con otras palabras?',
     });
   } catch (error) {
+    if (estaSaturado(error)) {
+      return res.status(503).json({ mensaje: 'Brisi está atendiendo a mucha gente. Intenta en un momento.' });
+    }
     if (error instanceof ApiError) {
       if (error.status === 429) {
         // En el plan gratuito, Google limita cuántas preguntas se pueden hacer por minuto y por día
