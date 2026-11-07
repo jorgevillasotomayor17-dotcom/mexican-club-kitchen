@@ -29,9 +29,12 @@ function Nosotros() {
 
       <ul ref={ref} className={`nosotros-lista revelar-grupo ${visible ? 'visible' : ''}`}>
         {puntosFuertes.map((punto) => (
-          <li key={punto.titulo} className="nosotros-tarjeta">
-            <h3>{punto.titulo}</h3>
-            <p>{punto.texto}</p>
+          // El <li> se encarga de aparecer en cascada y el <div>, del efecto al pasar el mouse
+          <li key={punto.titulo}>
+            <div className="nosotros-tarjeta">
+              <h3>{punto.titulo}</h3>
+              <p>{punto.texto}</p>
+            </div>
           </li>
         ))}
       </ul>
