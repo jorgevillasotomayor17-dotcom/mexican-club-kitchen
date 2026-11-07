@@ -24,7 +24,7 @@ function FormularioPlato({ plato, ocupado, onGuardar, onCancelar }) {
   }
 
   return (
-    <form className="form-plato" onSubmit={enviar}>
+    <form className="form-plato formulario-vidrio" onSubmit={enviar}>
       <h3>{esNuevo ? 'Nuevo plato' : `Editar: ${plato.nombre}`}</h3>
 
       <label>
@@ -94,7 +94,7 @@ function FormularioPlato({ plato, ocupado, onGuardar, onCancelar }) {
       </label>
 
       <div className="form-plato-botones">
-        <button type="submit" className="boton" disabled={ocupado}>
+        <button type="submit" className="boton" disabled={ocupado} aria-busy={ocupado}>
           {ocupado ? 'Guardando…' : 'Guardar'}
         </button>
         <button type="button" className="boton-secundario" onClick={onCancelar} disabled={ocupado}>

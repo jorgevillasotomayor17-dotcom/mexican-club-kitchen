@@ -39,7 +39,7 @@ function Login({ onEntrar }) {
 
   return (
     <main className="login">
-      <form className="login-formulario" onSubmit={entrar}>
+      <form className="login-formulario formulario-vidrio" onSubmit={entrar}>
         <h1>Panel de administración</h1>
 
         <label>
@@ -64,7 +64,7 @@ function Login({ onEntrar }) {
           />
         </label>
 
-        <button type="submit" className="boton" disabled={enviando}>
+        <button type="submit" className="boton" disabled={enviando} aria-busy={enviando}>
           {enviando ? 'Entrando…' : 'Entrar'}
         </button>
 

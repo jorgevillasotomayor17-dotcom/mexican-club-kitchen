@@ -236,7 +236,7 @@ main section > h2::after {
   background: linear-gradient(90deg, transparent, var(--color-dorado), transparent);
 }
 
-/* ---------- Formularios (carrito y contacto) ---------- */
+/* ---------- Formularios (carrito, contacto y panel admin) ---------- */
 
 .formulario-vidrio label {
   display: grid;
@@ -259,8 +259,10 @@ main section > h2::after {
   opacity: 0.6;
 }
 
-.formulario-vidrio input,
-.formulario-vidrio textarea {
+/* :not([type='checkbox']): las casillas conservan su tamaño normal */
+.formulario-vidrio input:not([type='checkbox']),
+.formulario-vidrio textarea,
+.formulario-vidrio select {
   width: 100%;
   padding: 0.75rem;
   border: 1px solid var(--borde-campo);
@@ -280,13 +282,15 @@ main section > h2::after {
   color: rgb(245 240 230 / 0.45);
 }
 
-.formulario-vidrio input:hover,
-.formulario-vidrio textarea:hover {
+.formulario-vidrio input:not([type='checkbox']):hover,
+.formulario-vidrio textarea:hover,
+.formulario-vidrio select:hover {
   border-color: rgb(255 255 255 / 0.35);
 }
 
-.formulario-vidrio input:focus,
-.formulario-vidrio textarea:focus {
+.formulario-vidrio input:not([type='checkbox']):focus,
+.formulario-vidrio textarea:focus,
+.formulario-vidrio select:focus {
   border-color: var(--color-dorado);
   outline: none;
   background-color: rgb(255 255 255 / 0.09);
@@ -296,13 +300,20 @@ main section > h2::after {
 /* :user-invalid marca el error solo después de que la persona tocó el campo,
    no apenas se abre el formulario */
 .formulario-vidrio input:user-invalid,
-.formulario-vidrio textarea:user-invalid {
+.formulario-vidrio textarea:user-invalid,
+.formulario-vidrio select:user-invalid {
   border-color: var(--color-error);
 }
 
 .formulario-vidrio input:disabled,
-.formulario-vidrio textarea:disabled {
+.formulario-vidrio textarea:disabled,
+.formulario-vidrio select:disabled {
   cursor: not-allowed;
+}
+
+/* Las opciones de una lista se ven sobre fondo oscuro */
+.formulario-vidrio option {
+  background-color: var(--color-verde-oscuro);
 }
 
 .formulario-vidrio .boton:disabled {

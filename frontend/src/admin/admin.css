@@ -1,29 +1,32 @@
-/* El panel mantiene su tema claro: redefine las variables que comparte con la web pública
-   (este archivo se carga después de index.css, así que estos valores ganan) */
+/* =========================================================
+   Panel de administración · usa las mismas variables que la web
+   (index.css), así el tema Mexican Luxury Glass es igual en las dos
+   ========================================================= */
+
+/* Colores para el estado de cada pedido (claros, para leerse sobre fondo oscuro) */
 :root {
-  --color-verde: #1e6b4f;
-  --color-rojo: #d62839;
-  --color-crema: #fdf6ec;
-  --color-texto: #2a1f17;
-  --color-fondo: #fdf6ec;
-  --color-foco: #1e6b4f;
-  --color-acento: #1e6b4f;
-  --boton-fondo: #d62839;
-  --boton-fondo-hover: #a91d2c;
-  --boton-texto: white;
-  --boton-sombra: none;
-  --boton-sombra-hover: 0 4px 12px rgb(214 40 57 / 0.3);
-  --fuente-titulos: var(--fuente-texto);
-
-  color-scheme: light;
+  --estado-pendiente: var(--color-dorado);
+  --estado-preparando: #7aa7ff;
+  --estado-en-camino: #b69cff;
+  --estado-entregado: var(--color-exito);
+  --estado-cancelado: rgb(255 255 255 / 0.25);
 }
 
-/* Sin las luces de fondo de la web pública */
-body::before {
-  display: none;
+/* Tarjeta de vidrio que comparten las filas de platos, pedidos y mensajes */
+.gestion-fila,
+.pedido,
+.mensaje {
+  border: var(--vidrio-borde);
+  border-left: 4px solid var(--color-esmeralda);
+  border-radius: 0.85rem;
+  background-color: var(--superficie);
+  -webkit-backdrop-filter: var(--vidrio-desenfoque);
+  backdrop-filter: var(--vidrio-desenfoque);
+  box-shadow: var(--vidrio-sombra);
+  animation: entrar 0.4s var(--curva-suave);
 }
 
-/* Login */
+/* ---------- Login ---------- */
 
 .login {
   min-height: 100vh;
@@ -37,77 +40,60 @@ body::before {
   gap: 1.25rem;
   width: 100%;
   max-width: 24rem;
-  padding: 2rem 1.5rem;
-  border-radius: 0.75rem;
-  background-color: white;
-  box-shadow: 0 2px 12px rgb(0 0 0 / 0.1);
+  padding: 2.25rem 1.75rem;
+  border: 1px solid rgb(201 164 92 / 0.3);
+  border-radius: 1.5rem;
+  background-color: var(--superficie-elevada);
+  -webkit-backdrop-filter: var(--vidrio-desenfoque);
+  backdrop-filter: var(--vidrio-desenfoque);
+  box-shadow:
+    var(--vidrio-sombra),
+    0 0 60px rgb(201 164 92 / 0.12);
+  animation: entrar 0.6s var(--curva-suave);
 }
 
 .login-formulario h1 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   text-align: center;
-  color: var(--color-verde);
+  color: var(--color-dorado);
 }
 
-.login-formulario label {
-  display: grid;
-  gap: 0.35rem;
-  font-weight: 600;
-}
-
-.login-formulario input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #c9bfb2;
-  border-radius: 0.5rem;
-  font: inherit;
-  font-weight: 400;
-  background-color: var(--color-crema);
-}
-
-.login-formulario input:focus {
-  border-color: var(--color-verde);
-  outline: 2px solid var(--color-verde);
-  outline-offset: 1px;
-}
-
-.login-formulario .boton {
-  border: none;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.login-formulario .boton:disabled {
-  opacity: 0.6;
-  cursor: wait;
-}
-
-.login-error {
+.login-error,
+.panel-error {
   margin: 0;
   padding: 0.75rem;
-  border-radius: 0.5rem;
-  color: #8a0b20;
-  background-color: #fde4e8;
+  border: 1px solid rgb(242 139 130 / 0.3);
+  border-radius: 0.6rem;
+  color: var(--color-error);
+  background-color: var(--color-error-fondo);
+  animation: entrar 0.3s var(--curva-suave);
 }
 
-/* Barra superior del panel */
+/* ---------- Barra superior ---------- */
 
 .panel-barra {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem 1rem;
   padding: 0.75rem 1rem;
-  color: white;
-  background-color: var(--color-verde);
+  border-bottom: var(--vidrio-borde);
+  background-color: rgb(7 28 22 / 0.82);
+  -webkit-backdrop-filter: var(--vidrio-desenfoque);
+  backdrop-filter: var(--vidrio-desenfoque);
+  box-shadow: 0 8px 32px rgb(0 0 0 / 0.35);
 }
 
 .panel-marca {
+  font-family: var(--fuente-titulos);
+  font-size: 1.15rem;
   font-weight: 700;
-  color: white;
+  color: var(--color-dorado);
   text-decoration: none;
 }
 
@@ -116,36 +102,41 @@ body::before {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem;
+  color: var(--color-texto-suave);
 }
 
 .panel-salir {
   padding: 0.4rem 0.9rem;
-  border: 1px solid white;
+  border: 1px solid rgb(201 164 92 / 0.45);
   border-radius: 999px;
   font: inherit;
-  color: white;
-  background: transparent;
+  font-weight: 600;
+  color: var(--color-texto);
+  background-color: var(--superficie);
   cursor: pointer;
+  transition:
+    border-color var(--transicion-rapida),
+    box-shadow var(--transicion-rapida);
 }
 
 .panel-salir:hover,
 .panel-salir:focus-visible {
-  color: var(--color-verde);
-  background-color: white;
+  border-color: var(--color-dorado);
+  box-shadow: var(--brillo-dorado);
 }
 
-/* Contenido del panel */
+/* ---------- Contenido ---------- */
 
 .panel {
   max-width: 64rem;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 2rem 1rem 4rem;
 }
 
 .panel h1 {
   margin: 0 0 1.5rem;
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  color: var(--color-verde);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  color: var(--color-texto);
 }
 
 /* Pestañas para cambiar de sección */
@@ -155,39 +146,50 @@ body::before {
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid #e5dccf;
+  border-bottom: 1px solid var(--borde-suave);
 }
 
 .panel-pestana {
-  margin-bottom: -2px;
+  position: relative;
   padding: 0.6rem 1.1rem;
   border: none;
-  border-bottom: 3px solid transparent;
   font: inherit;
   font-weight: 600;
-  color: #6b5d4f;
+  color: var(--color-texto-suave);
   background: none;
   cursor: pointer;
+  transition: color var(--transicion-rapida);
+}
+
+/* Línea dorada de la pestaña activa: crece desde el centro, como en la web */
+.panel-pestana::after {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  right: 0.5rem;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--color-dorado);
+  box-shadow: 0 0 10px rgb(201 164 92 / 0.8);
+  transform: scaleX(0);
+  transition: transform var(--transicion-suave);
 }
 
 .panel-pestana:hover,
 .panel-pestana:focus-visible {
-  color: var(--color-verde);
+  color: var(--color-texto);
 }
 
 .panel-pestana[aria-pressed='true'] {
-  border-bottom-color: var(--color-verde);
-  color: var(--color-verde);
+  color: var(--color-dorado);
 }
 
-.panel-error {
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  color: #8a0b20;
-  background-color: #fde4e8;
+.panel-pestana[aria-pressed='true']::after {
+  transform: scaleX(1);
 }
 
-/* Botones pequeños del panel */
+/* ---------- Botones pequeños ---------- */
 
 .boton-secundario,
 .boton-peligro {
@@ -197,30 +199,40 @@ body::before {
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
+  transition:
+    border-color var(--transicion-rapida),
+    color var(--transicion-rapida),
+    background-color var(--transicion-rapida),
+    transform var(--transicion-rapida);
+}
+
+.boton-secundario:active:enabled,
+.boton-peligro:active:enabled {
+  transform: scale(0.96);
 }
 
 .boton-secundario {
-  border: 1px solid var(--color-verde);
-  color: var(--color-verde);
-  background-color: white;
+  border: 1px solid var(--borde-campo);
+  color: var(--color-texto);
+  background-color: var(--superficie);
 }
 
-.boton-secundario:hover,
+.boton-secundario:hover:enabled,
 .boton-secundario:focus-visible {
-  color: white;
-  background-color: var(--color-verde);
+  border-color: var(--color-dorado);
+  color: var(--color-dorado);
 }
 
 .boton-peligro {
-  border: 1px solid var(--color-rojo);
-  color: var(--color-rojo);
-  background-color: white;
+  border: 1px solid rgb(242 139 130 / 0.5);
+  color: var(--color-error);
+  background-color: transparent;
 }
 
-.boton-peligro:hover,
+.boton-peligro:hover:enabled,
 .boton-peligro:focus-visible {
-  color: white;
-  background-color: var(--color-rojo);
+  border-color: var(--color-error);
+  background-color: var(--color-error-fondo);
 }
 
 .boton-secundario:disabled,
@@ -229,7 +241,7 @@ body::before {
   cursor: wait;
 }
 
-/* Gestión de platos */
+/* ---------- Gestión de platos ---------- */
 
 .gestion-cabecera {
   display: flex;
@@ -260,15 +272,11 @@ body::before {
   justify-content: space-between;
   gap: 0.75rem;
   padding: 1rem;
-  border-left: 4px solid var(--color-verde);
-  border-radius: 0.5rem;
-  background-color: white;
-  box-shadow: 0 1px 4px rgb(0 0 0 / 0.08);
 }
 
 .gestion-fila-oculta {
-  border-left-color: #b8ada0;
-  opacity: 0.75;
+  border-left-color: var(--estado-cancelado);
+  opacity: 0.7;
 }
 
 .gestion-info {
@@ -278,7 +286,7 @@ body::before {
 
 .gestion-info span {
   font-size: 0.9rem;
-  color: #6b5d4f;
+  color: var(--color-texto-suave);
 }
 
 .gestion-acciones {
@@ -287,47 +295,25 @@ body::before {
   gap: 0.5rem;
 }
 
-/* Formulario para crear o editar un plato */
+/* Formulario para crear o editar un plato (sus campos usan .formulario-vidrio de index.css) */
 
 .form-plato {
   display: grid;
   gap: 1rem;
   margin-bottom: 1.5rem;
-  padding: 1.25rem;
-  border: 2px solid var(--color-verde);
-  border-radius: 0.75rem;
-  background-color: white;
+  padding: 1.5rem;
+  border: 1px solid rgb(201 164 92 / 0.35);
+  border-radius: 1.25rem;
+  background-color: var(--superficie-elevada);
+  -webkit-backdrop-filter: var(--vidrio-desenfoque);
+  backdrop-filter: var(--vidrio-desenfoque);
+  box-shadow: var(--vidrio-sombra);
+  animation: entrar 0.4s var(--curva-suave);
 }
 
 .form-plato h3 {
   margin: 0;
-  color: var(--color-verde);
-}
-
-.form-plato label {
-  display: grid;
-  gap: 0.35rem;
-  font-weight: 600;
-}
-
-.form-plato input:not([type='checkbox']),
-.form-plato textarea,
-.form-plato select {
-  width: 100%;
-  padding: 0.65rem;
-  border: 1px solid #c9bfb2;
-  border-radius: 0.5rem;
-  font: inherit;
-  font-weight: 400;
-  background-color: var(--color-crema);
-}
-
-.form-plato input:focus,
-.form-plato textarea:focus,
-.form-plato select:focus {
-  border-color: var(--color-verde);
-  outline: 2px solid var(--color-verde);
-  outline-offset: 1px;
+  color: var(--color-dorado);
 }
 
 .form-plato textarea {
@@ -342,7 +328,7 @@ body::before {
 
 .form-plato-opcional {
   font-weight: 400;
-  color: #6b5d4f;
+  color: var(--color-texto-suave);
 }
 
 .form-plato .form-plato-casilla {
@@ -354,7 +340,7 @@ body::before {
 .form-plato-casilla input {
   width: 1.15rem;
   height: 1.15rem;
-  accent-color: var(--color-verde);
+  accent-color: var(--color-esmeralda);
 }
 
 .form-plato-botones {
@@ -363,45 +349,30 @@ body::before {
   gap: 0.75rem;
 }
 
-.form-plato-botones .boton {
-  border: none;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.form-plato-botones .boton:disabled {
-  opacity: 0.6;
-  cursor: wait;
-}
-
-/* Pedidos */
+/* ---------- Pedidos ---------- */
 
 .pedido {
   display: grid;
   gap: 0.75rem;
   padding: 1rem;
-  border-left: 4px solid #d97706;
-  border-radius: 0.5rem;
-  background-color: white;
-  box-shadow: 0 1px 4px rgb(0 0 0 / 0.08);
+  border-left-color: var(--estado-pendiente);
 }
 
 .pedido-preparando {
-  border-left-color: #2563eb;
+  border-left-color: var(--estado-preparando);
 }
 
 .pedido-en-camino {
-  border-left-color: #7c3aed;
+  border-left-color: var(--estado-en-camino);
 }
 
 .pedido-entregado {
-  border-left-color: var(--color-verde);
+  border-left-color: var(--estado-entregado);
 }
 
 .pedido-cancelado {
-  border-left-color: #b8ada0;
-  opacity: 0.75;
+  border-left-color: var(--estado-cancelado);
+  opacity: 0.7;
 }
 
 .pedido-cabecera {
@@ -414,15 +385,11 @@ body::before {
 .pedido-cabecera span,
 .pedido-contacto {
   font-size: 0.9rem;
-  color: #6b5d4f;
+  color: var(--color-texto-suave);
 }
 
 .pedido-contacto {
   margin: 0;
-}
-
-.pedido-contacto a {
-  color: var(--color-verde);
 }
 
 .pedido-items {
@@ -430,8 +397,8 @@ body::before {
   gap: 0.25rem;
   margin: 0;
   padding: 0.75rem 0;
-  border-top: 1px dashed #e5dccf;
-  border-bottom: 1px dashed #e5dccf;
+  border-top: 1px dashed var(--borde-campo);
+  border-bottom: 1px dashed var(--borde-campo);
   list-style: none;
 }
 
@@ -458,10 +425,23 @@ body::before {
 
 .pedido-estado select {
   padding: 0.4rem 0.6rem;
-  border: 1px solid #c9bfb2;
-  border-radius: 0.5rem;
+  border: 1px solid var(--borde-campo);
+  border-radius: 0.6rem;
   font: inherit;
-  background-color: var(--color-crema);
+  color: inherit;
+  background-color: var(--superficie-campo);
+  cursor: pointer;
+  transition: border-color var(--transicion-rapida);
+}
+
+.pedido-estado select:hover:enabled,
+.pedido-estado select:focus {
+  border-color: var(--color-dorado);
+}
+
+/* Las opciones de la lista se ven sobre el fondo oscuro del panel */
+.pedido-estado option {
+  background-color: var(--color-verde-oscuro);
 }
 
 .pedido-estado select:disabled {
@@ -469,21 +449,19 @@ body::before {
   cursor: wait;
 }
 
-/* Mensajes de contacto */
+/* ---------- Mensajes de contacto ---------- */
 
 .mensaje {
   display: grid;
   gap: 0.75rem;
   padding: 1rem;
-  border-left: 4px solid #b8ada0;
-  border-radius: 0.5rem;
-  background-color: white;
-  box-shadow: 0 1px 4px rgb(0 0 0 / 0.08);
+  border-left-color: var(--estado-cancelado);
 }
 
+/* Mensaje sin leer: borde dorado y un leve tono dorado de fondo */
 .mensaje-nuevo {
-  border-left-color: var(--color-rojo);
-  background-color: #fffaf3;
+  border-left-color: var(--color-dorado);
+  background-color: rgb(201 164 92 / 0.08);
 }
 
 .mensaje-texto {
@@ -496,20 +474,10 @@ body::before {
   margin-left: 0.5rem;
   padding: 0.15rem 0.6rem;
   border-radius: 999px;
+  font-family: var(--fuente-texto);
   font-size: 0.85rem;
   vertical-align: middle;
-  color: white;
-  background-color: var(--color-rojo);
-}
-
-.gestion-cabecera .boton {
-  border: none;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.gestion-cabecera .boton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  color: var(--color-noche);
+  background-color: var(--color-dorado);
+  box-shadow: 0 0 14px rgb(201 164 92 / 0.45);
 }
