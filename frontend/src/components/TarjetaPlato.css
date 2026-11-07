@@ -5,7 +5,8 @@
   overflow: hidden;
   border-radius: 0.75rem;
   border: var(--vidrio-borde);
-  background-color: var(--vidrio-fondo);
+  background-color: var(--superficie);
+  -webkit-backdrop-filter: var(--vidrio-desenfoque);
   backdrop-filter: var(--vidrio-desenfoque);
   box-shadow: var(--vidrio-sombra);
 }
@@ -16,7 +17,7 @@
 
 .tarjeta-plato.visible:hover {
   transform: translateY(-6px);
-  box-shadow: 0 14px 36px rgb(42 31 23 / 0.18);
+  box-shadow: 0 16px 40px rgb(0 0 0 / 0.45);
 }
 
 .tarjeta-plato img {
@@ -59,21 +60,17 @@
 
 .tarjeta-plato-agregar {
   padding: 0.5rem 1.1rem;
-  border: none;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
 }
 
 .tarjeta-plato .tarjeta-plato-en-carrito {
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--color-verde);
+  color: var(--color-exito);
   animation: entrar 0.3s ease;
 }
 
 .tarjeta-plato .tarjeta-plato-precio {
   font-size: 1.125rem;
   font-weight: 700;
-  color: var(--color-rojo);
+  color: var(--color-dorado);
 }

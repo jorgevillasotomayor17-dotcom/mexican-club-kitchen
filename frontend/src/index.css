@@ -1,25 +1,67 @@
+/* =========================================================
+   SISTEMA DE DISEÑO · Mexican Luxury Glass
+   Todos los colores de la web salen de estas variables
+   ========================================================= */
 :root {
-  /* Paleta inspirada en México: agave, chile, maíz y arena */
-  --color-verde: #1e6b4f;
-  --color-verde-oscuro: #134a36;
-  --color-rojo: #d62839;
-  --color-rojo-oscuro: #a91d2c;
-  --color-maiz: #f4a62a;
-  --color-crema: #fdf6ec;
-  --color-arena: #f6e7d3;
-  --color-texto: #2a1f17;
-  --color-texto-suave: #6b5a4b;
+  /* Paleta base */
+  --color-noche: #071c16;
+  --color-verde-oscuro: #103d2d;
+  --color-esmeralda: #167a50;
+  --color-esmeralda-claro: #1d9463;
+  --color-dorado: #c9a45c;
+  --color-dorado-claro: #ddbf7e;
+  --color-crema: #f5f0e6;
 
-  /* Estilo vidrio (glass): fondo blanco transparente, borde claro y desenfoque */
-  --vidrio-fondo: rgb(255 255 255 / 0.55);
-  --vidrio-borde: 1px solid rgb(255 255 255 / 0.7);
-  --vidrio-desenfoque: blur(14px) saturate(160%);
-  --vidrio-sombra: 0 8px 32px rgb(42 31 23 / 0.12);
+  /* Colores según su uso */
+  --color-fondo: var(--color-noche);
+  --color-texto: var(--color-crema);
+  --color-texto-suave: rgb(245 240 230 / 0.72);
+  --color-acento: var(--color-dorado);
+  --color-foco: var(--color-dorado);
+  --color-error: #f28b82;
+  --color-error-fondo: rgb(242 139 130 / 0.12);
+  --color-exito: #7fd8a8;
+  --color-exito-fondo: rgb(127 216 168 / 0.12);
 
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.5;
+  /* Superficies de vidrio: más opacas donde hay más texto, para que se lea bien */
+  --superficie: rgb(255 255 255 / 0.06);
+  --superficie-elevada: rgb(16 61 45 / 0.72);
+  --superficie-campo: rgb(255 255 255 / 0.06);
+  --borde-suave: rgb(255 255 255 / 0.12);
+  --borde-campo: rgb(255 255 255 / 0.22);
+  --vidrio-borde: 1px solid var(--borde-suave);
+  --vidrio-desenfoque: blur(16px) saturate(140%);
+  --vidrio-sombra: 0 10px 40px rgb(0 0 0 / 0.35);
+  --brillo-dorado: 0 0 24px rgb(201 164 92 / 0.35);
+
+  /* Botón principal (dorado) */
+  --boton-fondo: var(--color-dorado);
+  --boton-fondo-hover: var(--color-dorado-claro);
+  --boton-texto: var(--color-noche);
+  --boton-sombra: 0 4px 18px rgb(201 164 92 / 0.25);
+  --boton-sombra-hover: 0 8px 28px rgb(201 164 92 / 0.45);
+
+  /* Tipografía: fuentes del sistema (no se descarga nada) */
+  --fuente-texto: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --fuente-titulos: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+
+  /* Movimiento */
+  --transicion-rapida: 0.2s ease;
+  --transicion-suave: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: dark;
+  font-family: var(--fuente-texto);
+  line-height: 1.6;
   color: var(--color-texto);
-  background-color: var(--color-crema);
+  background-color: var(--color-fondo);
+}
+
+/* Si el navegador no soporta el desenfoque, el vidrio se vuelve casi sólido para que se lea */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root {
+    --superficie: rgb(16 61 45 / 0.92);
+    --superficie-elevada: rgb(16 61 45 / 0.97);
+  }
 }
 
 *,
@@ -35,14 +77,30 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  /* Manchas de color suaves detrás de todo: el vidrio las deja ver desenfocadas */
+  background-color: var(--color-fondo);
+}
+
+/* Luces verdes y doradas detrás de todo. Es una capa fija aparte (y no background-attachment: fixed)
+   porque así funciona en iPhone y no traba el scroll */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background:
-    radial-gradient(circle at 10% 15%, rgb(244 166 42 / 0.35), transparent 40%),
-    radial-gradient(circle at 90% 35%, rgb(214 40 57 / 0.2), transparent 40%),
-    radial-gradient(circle at 15% 75%, rgb(30 107 79 / 0.2), transparent 45%),
-    radial-gradient(circle at 85% 90%, rgb(244 166 42 / 0.3), transparent 40%),
-    var(--color-crema);
-  background-attachment: fixed;
+    radial-gradient(ellipse at 15% 10%, rgb(22 122 80 / 0.35), transparent 50%),
+    radial-gradient(ellipse at 85% 30%, rgb(201 164 92 / 0.16), transparent 45%),
+    radial-gradient(ellipse at 20% 85%, rgb(201 164 92 / 0.1), transparent 45%),
+    radial-gradient(ellipse at 90% 95%, rgb(22 122 80 / 0.28), transparent 50%),
+    linear-gradient(180deg, var(--color-noche), var(--color-verde-oscuro) 140%);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--fuente-titulos);
+  letter-spacing: -0.01em;
 }
 
 img {
@@ -50,39 +108,114 @@ img {
   max-width: 100%;
 }
 
+a {
+  color: var(--color-acento);
+}
+
 section[id] {
   scroll-margin-top: 4rem;
 }
 
+/* Un solo estilo de foco para toda la web: se ve al navegar con el teclado */
+:focus-visible {
+  outline: 2px solid var(--color-foco);
+  outline-offset: 2px;
+}
+
+/* ---------- Botones ---------- */
+
 .boton {
   display: inline-block;
-  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   padding: 0.75rem 1.5rem;
+  border: none;
   border-radius: 999px;
+  font: inherit;
   font-weight: 700;
-  color: white;
+  color: var(--boton-texto);
   text-decoration: none;
-  background-color: var(--color-rojo);
-  box-shadow: 0 4px 14px rgb(214 40 57 / 0.35);
+  background-color: var(--boton-fondo);
+  box-shadow: var(--boton-sombra);
+  cursor: pointer;
+  transition:
+    background-color var(--transicion-rapida),
+    transform var(--transicion-rapida),
+    box-shadow var(--transicion-rapida);
 }
 
 .boton:hover,
 .boton:focus-visible {
-  background-color: var(--color-rojo-oscuro);
+  background-color: var(--boton-fondo-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgb(214 40 57 / 0.4);
+  box-shadow: var(--boton-sombra-hover);
 }
 
 .boton:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.98);
 }
+
+/* Botón secundario: vidrio transparente con borde luminoso */
+.boton-vidrio {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgb(201 164 92 / 0.45);
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  color: var(--color-texto);
+  text-decoration: none;
+  background-color: var(--superficie);
+  -webkit-backdrop-filter: var(--vidrio-desenfoque);
+  backdrop-filter: var(--vidrio-desenfoque);
+  cursor: pointer;
+  transition:
+    border-color var(--transicion-rapida),
+    transform var(--transicion-rapida),
+    box-shadow var(--transicion-rapida);
+}
+
+.boton-vidrio:hover,
+.boton-vidrio:focus-visible {
+  border-color: var(--color-dorado);
+  transform: translateY(-2px);
+  box-shadow: var(--brillo-dorado);
+}
+
+.boton-vidrio:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.boton:disabled,
+.boton-vidrio:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ---------- Avisos de error y éxito ---------- */
+
+.aviso-error {
+  color: var(--color-error);
+  background-color: var(--color-error-fondo);
+  border: 1px solid rgb(242 139 130 / 0.3);
+}
+
+.aviso-exito {
+  color: var(--color-exito);
+  background-color: var(--color-exito-fondo);
+  border: 1px solid rgb(127 216 168 / 0.3);
+}
+
+/* ---------- Animaciones ---------- */
 
 /* Aparecer al bajar: empieza invisible y un poco más abajo */
 .revelar,
 .revelar-grupo > * {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
 }
 
 .revelar.visible,

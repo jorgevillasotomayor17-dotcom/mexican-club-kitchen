@@ -8,7 +8,7 @@
   margin: 0 0 2rem;
   font-size: clamp(1.75rem, 5vw, 2.5rem);
   text-align: center;
-  color: var(--color-verde);
+  color: var(--color-texto);
 }
 
 .menu-aviso {
@@ -19,8 +19,9 @@
 .menu-error {
   padding: 1rem;
   border-radius: 0.75rem;
-  color: #8a0b20;
-  background-color: #fde4e8;
+  border: 1px solid rgb(242 139 130 / 0.3);
+  color: var(--color-error);
+  background-color: var(--color-error-fondo);
 }
 
 .menu-categoria + .menu-categoria {
@@ -30,9 +31,9 @@
 .menu-categoria h3 {
   margin: 0 0 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--color-rojo);
+  border-bottom: 1px solid rgb(201 164 92 / 0.35);
   font-size: 1.5rem;
-  color: var(--color-rojo);
+  color: var(--color-dorado);
 }
 
 .menu-lista {

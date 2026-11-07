@@ -5,7 +5,7 @@
   z-index: 30;
   display: flex;
   justify-content: flex-end;
-  background-color: rgb(42 31 23 / 0.35);
+  background-color: rgb(0 0 0 / 0.55);
   animation: carrito-oscurecer 0.25s ease;
 }
 
@@ -17,9 +17,10 @@
   height: 100%;
   overflow-y: auto;
   border-left: var(--vidrio-borde);
-  background-color: rgb(253 246 236 / 0.85);
+  background-color: var(--superficie-elevada);
+  -webkit-backdrop-filter: var(--vidrio-desenfoque);
   backdrop-filter: var(--vidrio-desenfoque);
-  box-shadow: -8px 0 32px rgb(42 31 23 / 0.2);
+  box-shadow: -8px 0 40px rgb(0 0 0 / 0.5);
   animation: carrito-entrar 0.3s ease;
 }
 
@@ -43,7 +44,7 @@
   justify-content: space-between;
   padding: 1rem 1.25rem;
   color: white;
-  background: linear-gradient(135deg, var(--color-verde), var(--color-verde-oscuro));
+  background: linear-gradient(135deg, var(--color-esmeralda), var(--color-verde-oscuro));
 }
 
 .carrito-cabecera h2 {
@@ -97,7 +98,7 @@
   padding: 0.85rem 1rem;
   border: var(--vidrio-borde);
   border-radius: 0.85rem;
-  background-color: var(--vidrio-fondo);
+  background-color: var(--superficie);
   animation: entrar 0.3s ease;
 }
 
@@ -110,7 +111,7 @@
 }
 
 .carrito-item-precio {
-  color: var(--color-rojo);
+  color: var(--color-dorado);
   font-weight: 600;
 }
 
@@ -129,20 +130,21 @@
 .carrito-cantidad button {
   width: 2rem;
   height: 2rem;
-  border: 1px solid var(--color-verde);
+  border: 1px solid var(--borde-campo);
   border-radius: 50%;
   font: inherit;
   font-weight: 700;
-  color: var(--color-verde);
-  background-color: white;
+  color: var(--color-texto);
+  background-color: var(--superficie-campo);
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .carrito-cantidad button:hover,
 .carrito-cantidad button:focus-visible {
-  color: white;
-  background-color: var(--color-verde);
+  border-color: var(--color-dorado);
+  color: var(--color-noche);
+  background-color: var(--color-dorado);
 }
 
 .carrito-quitar {
@@ -159,7 +161,7 @@
 
 .carrito-quitar:hover,
 .carrito-quitar:focus-visible {
-  color: var(--color-rojo);
+  color: var(--color-error);
 }
 
 .carrito-total {
@@ -167,12 +169,12 @@
   justify-content: space-between;
   margin: 0;
   padding-top: 0.75rem;
-  border-top: 2px dashed rgb(42 31 23 / 0.2);
+  border-top: 1px dashed var(--borde-campo);
   font-size: 1.2rem;
 }
 
 .carrito-total strong {
-  color: var(--color-rojo);
+  color: var(--color-dorado);
 }
 
 .carrito-formulario {
@@ -182,7 +184,7 @@
 
 .carrito-formulario h3 {
   margin: 0.5rem 0 0;
-  color: var(--color-verde);
+  color: var(--color-dorado);
 }
 
 .carrito-formulario label {
@@ -194,28 +196,21 @@
 .carrito-formulario input {
   width: 100%;
   padding: 0.7rem;
-  border: 1px solid #c9bfb2;
+  border: 1px solid var(--borde-campo);
   border-radius: 0.5rem;
   font: inherit;
   font-weight: 400;
-  background-color: rgb(255 255 255 / 0.85);
+  color: inherit;
+  background-color: var(--superficie-campo);
 }
 
 .carrito-formulario input:focus {
-  border-color: var(--color-verde);
-  outline: 2px solid var(--color-verde);
+  border-color: var(--color-dorado);
+  outline: 2px solid var(--color-dorado);
   outline-offset: 1px;
 }
 
-.carrito-formulario .boton {
-  border: none;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-}
-
 .carrito-formulario .boton:disabled {
-  opacity: 0.6;
   cursor: wait;
 }
 
@@ -223,8 +218,9 @@
   margin: 0;
   padding: 0.75rem;
   border-radius: 0.5rem;
-  color: #8a0b20;
-  background-color: #fde4e8;
+  border: 1px solid rgb(242 139 130 / 0.3);
+  color: var(--color-error);
+  background-color: var(--color-error-fondo);
 }
 
 .carrito-nota {
@@ -246,7 +242,7 @@
 .carrito-confirmado h3 {
   margin: 0;
   font-size: 1.5rem;
-  color: var(--color-verde);
+  color: var(--color-dorado);
 }
 
 .carrito-confirmado p {

@@ -1,3 +1,28 @@
+/* El panel mantiene su tema claro: redefine las variables que comparte con la web pública
+   (este archivo se carga después de index.css, así que estos valores ganan) */
+:root {
+  --color-verde: #1e6b4f;
+  --color-rojo: #d62839;
+  --color-crema: #fdf6ec;
+  --color-texto: #2a1f17;
+  --color-fondo: #fdf6ec;
+  --color-foco: #1e6b4f;
+  --color-acento: #1e6b4f;
+  --boton-fondo: #d62839;
+  --boton-fondo-hover: #a91d2c;
+  --boton-texto: white;
+  --boton-sombra: none;
+  --boton-sombra-hover: 0 4px 12px rgb(214 40 57 / 0.3);
+  --fuente-titulos: var(--fuente-texto);
+
+  color-scheme: light;
+}
+
+/* Sin las luces de fondo de la web pública */
+body::before {
+  display: none;
+}
+
 /* Login */
 
 .login {

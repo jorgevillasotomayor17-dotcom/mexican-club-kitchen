@@ -29,8 +29,8 @@
   font-size: clamp(2.25rem, 9vw, 4.5rem);
   line-height: 1.1;
   /* Texto con degradado de chile a maíz */
-  color: var(--color-rojo);
-  background: linear-gradient(90deg, var(--color-rojo), var(--color-maiz));
+  color: var(--color-crema);
+  background: linear-gradient(90deg, var(--color-crema), var(--color-dorado));
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -40,12 +40,13 @@
   padding: 0.35rem 1rem;
   border: var(--vidrio-borde);
   border-radius: 999px;
-  background-color: var(--vidrio-fondo);
+  background-color: var(--superficie);
+  -webkit-backdrop-filter: var(--vidrio-desenfoque);
   backdrop-filter: var(--vidrio-desenfoque);
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--color-verde);
+  color: var(--color-dorado);
 }
 
 .portada-texto {

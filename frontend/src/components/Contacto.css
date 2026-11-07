@@ -6,7 +6,7 @@
   margin: 0 0 0.5rem;
   font-size: clamp(1.75rem, 5vw, 2.5rem);
   text-align: center;
-  color: var(--color-verde);
+  color: var(--color-texto);
 }
 
 .contacto-intro {
@@ -22,7 +22,8 @@
   padding: 2rem 1.5rem;
   border: var(--vidrio-borde);
   border-radius: 1.25rem;
-  background-color: var(--vidrio-fondo);
+  background-color: var(--superficie);
+  -webkit-backdrop-filter: var(--vidrio-desenfoque);
   backdrop-filter: var(--vidrio-desenfoque);
   box-shadow: var(--vidrio-sombra);
 }
@@ -37,17 +38,18 @@
 .contacto-formulario textarea {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #c9bfb2;
+  border: 1px solid var(--borde-campo);
   border-radius: 0.5rem;
   font: inherit;
   font-weight: 400;
-  background-color: rgb(255 255 255 / 0.8);
+  color: inherit;
+  background-color: var(--superficie-campo);
 }
 
 .contacto-formulario input:focus,
 .contacto-formulario textarea:focus {
-  border-color: var(--color-verde);
-  outline: 2px solid var(--color-verde);
+  border-color: var(--color-dorado);
+  outline: 2px solid var(--color-dorado);
   outline-offset: 1px;
 }
 
@@ -62,14 +64,9 @@
 
 .contacto-formulario .boton {
   justify-self: start;
-  border: none;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
 }
 
 .contacto-formulario .boton:disabled {
-  opacity: 0.6;
   cursor: wait;
 }
 
@@ -80,11 +77,13 @@
 }
 
 .contacto-aviso-enviado {
-  color: #14532d;
-  background-color: #dcfce7;
+  border: 1px solid rgb(127 216 168 / 0.3);
+  color: var(--color-exito);
+  background-color: var(--color-exito-fondo);
 }
 
 .contacto-aviso-error {
-  color: #8a0b20;
-  background-color: #fde4e8;
+  border: 1px solid rgb(242 139 130 / 0.3);
+  color: var(--color-error);
+  background-color: var(--color-error-fondo);
 }

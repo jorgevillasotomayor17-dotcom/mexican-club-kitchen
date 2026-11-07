@@ -8,7 +8,7 @@
 .nosotros h2 {
   margin: 0 0 1rem;
   font-size: clamp(1.75rem, 5vw, 2.5rem);
-  color: var(--color-verde);
+  color: var(--color-texto);
 }
 
 .nosotros-intro {
@@ -30,18 +30,19 @@
   padding: 1.5rem;
   border-radius: 0.75rem;
   border: var(--vidrio-borde);
-  background-color: var(--vidrio-fondo);
+  background-color: var(--superficie);
+  -webkit-backdrop-filter: var(--vidrio-desenfoque);
   backdrop-filter: var(--vidrio-desenfoque);
   box-shadow: var(--vidrio-sombra);
 }
 
 .nosotros-tarjeta {
-  border-top: 4px solid var(--color-maiz);
+  border-top: 3px solid var(--color-dorado);
 }
 
 .nosotros-tarjeta h3 {
   margin: 0 0 0.5rem;
-  color: var(--color-rojo);
+  color: var(--color-dorado);
 }
 
 .nosotros-tarjeta p {

@@ -17,14 +17,14 @@
   font: inherit;
   font-weight: 700;
   color: white;
-  background: linear-gradient(135deg, var(--color-verde), var(--color-verde-oscuro));
-  box-shadow: 0 4px 14px rgb(19 74 54 / 0.4);
+  background: linear-gradient(135deg, var(--color-esmeralda), var(--color-verde-oscuro));
+  box-shadow: 0 4px 18px rgb(0 0 0 / 0.4);
   cursor: pointer;
 }
 
 .brisi-boton:hover,
 .brisi-boton:focus-visible {
-  background: var(--color-verde-oscuro);
+  background: var(--color-esmeralda);
   transform: translateY(-2px) scale(1.03);
 }
 
@@ -54,9 +54,10 @@
   overflow: hidden;
   border: var(--vidrio-borde);
   border-radius: 1.25rem;
-  background-color: rgb(253 246 236 / 0.75);
+  background-color: var(--superficie-elevada);
+  -webkit-backdrop-filter: var(--vidrio-desenfoque);
   backdrop-filter: var(--vidrio-desenfoque);
-  box-shadow: 0 8px 30px rgb(42 31 23 / 0.25);
+  box-shadow: var(--vidrio-sombra);
   transform-origin: bottom right;
   animation: brisi-abrir 0.25s ease;
 }
@@ -67,7 +68,7 @@
   justify-content: space-between;
   padding: 0.75rem 1rem;
   color: white;
-  background: linear-gradient(135deg, var(--color-verde), var(--color-verde-oscuro));
+  background: linear-gradient(135deg, var(--color-esmeralda), var(--color-verde-oscuro));
 }
 
 .brisi-cabecera div {
@@ -120,15 +121,15 @@
   align-self: flex-start;
   border-bottom-left-radius: 0.25rem;
   border: var(--vidrio-borde);
-  background-color: rgb(255 255 255 / 0.8);
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+  background-color: var(--superficie);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
 }
 
 .brisi-burbuja-usuario {
   align-self: flex-end;
   border-bottom-right-radius: 0.25rem;
-  color: white;
-  background-color: var(--color-rojo);
+  color: var(--color-noche);
+  background-color: var(--color-dorado);
 }
 
 .brisi-escribiendo {
@@ -141,29 +142,31 @@
   margin: 0;
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
-  color: #8a0b20;
-  background-color: #fde4e8;
+  color: var(--color-error);
+  background-color: var(--color-error-fondo);
 }
 
 .brisi-formulario {
   display: flex;
   gap: 0.5rem;
   padding: 0.75rem;
-  border-top: 1px solid #e5dccf;
+  border-top: 1px solid var(--borde-suave);
 }
 
 .brisi-formulario input {
   flex: 1;
   min-width: 0;
   padding: 0.6rem 0.75rem;
-  border: 1px solid #c9bfb2;
+  border: 1px solid var(--borde-campo);
   border-radius: 999px;
   font: inherit;
+  color: inherit;
+  background-color: var(--superficie-campo);
 }
 
 .brisi-formulario input:focus {
-  border-color: var(--color-verde);
-  outline: 2px solid var(--color-verde);
+  border-color: var(--color-dorado);
+  outline: 2px solid var(--color-dorado);
   outline-offset: 1px;
 }
 
@@ -173,8 +176,8 @@
   border-radius: 999px;
   font: inherit;
   font-weight: 700;
-  color: white;
-  background-color: var(--color-rojo);
+  color: var(--color-noche);
+  background-color: var(--color-dorado);
   cursor: pointer;
 }
 
@@ -197,7 +200,7 @@
   gap: 0.5rem;
   margin-top: 0.6rem;
   padding-top: 0.6rem;
-  border-top: 1px dashed rgb(42 31 23 / 0.2);
+  border-top: 1px dashed var(--borde-campo);
   white-space: normal;
 }
 
@@ -218,7 +221,7 @@
 
 .brisi-sugerencia li span {
   font-weight: 600;
-  color: var(--color-rojo);
+  color: var(--color-dorado);
 }
 
 .brisi-sugerencia button {
@@ -228,23 +231,24 @@
   font: inherit;
   font-size: 0.9rem;
   font-weight: 700;
-  color: white;
-  background-color: var(--color-rojo);
+  color: var(--color-noche);
+  background-color: var(--color-dorado);
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .brisi-sugerencia button:hover,
 .brisi-sugerencia button:focus-visible {
-  background-color: var(--color-rojo-oscuro);
+  background-color: var(--color-dorado-claro);
   transform: translateY(-1px);
 }
 
 .brisi-sugerencia .brisi-sugerencia-listo {
-  background-color: var(--color-verde);
+  color: white;
+  background-color: var(--color-esmeralda);
 }
 
 .brisi-sugerencia .brisi-sugerencia-listo:hover,
 .brisi-sugerencia .brisi-sugerencia-listo:focus-visible {
-  background-color: var(--color-verde-oscuro);
+  background-color: var(--color-esmeralda-claro);
 }

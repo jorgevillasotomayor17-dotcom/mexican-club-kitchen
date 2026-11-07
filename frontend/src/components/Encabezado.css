@@ -9,15 +9,17 @@
   gap: 0.5rem 1.5rem;
   padding: 0.75rem 1rem;
   border-bottom: var(--vidrio-borde);
-  background-color: rgb(253 246 236 / 0.7);
+  background-color: var(--superficie-elevada);
+  -webkit-backdrop-filter: var(--vidrio-desenfoque);
   backdrop-filter: var(--vidrio-desenfoque);
-  box-shadow: 0 2px 16px rgb(42 31 23 / 0.08);
+  box-shadow: 0 4px 24px rgb(0 0 0 / 0.25);
 }
 
 .logo {
   font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--color-rojo);
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  color: var(--color-dorado);
   text-decoration: none;
 }
 
@@ -37,7 +39,7 @@
 .menu-principal a {
   position: relative;
   font-weight: 600;
-  color: var(--color-verde-oscuro);
+  color: var(--color-texto);
   text-decoration: none;
 }
 
@@ -50,7 +52,7 @@
   bottom: -0.2rem;
   height: 2px;
   border-radius: 2px;
-  background-color: var(--color-rojo);
+  background-color: var(--color-dorado);
   transform: scaleX(0);
   transition: transform 0.25s ease;
 }
@@ -70,14 +72,14 @@
   font: inherit;
   font-weight: 700;
   color: white;
-  background-color: var(--color-verde);
+  background-color: var(--color-esmeralda);
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .encabezado-carrito:hover,
 .encabezado-carrito:focus-visible {
-  background-color: var(--color-verde-oscuro);
+  background-color: var(--color-esmeralda-claro);
   transform: translateY(-1px);
 }
 
@@ -89,8 +91,8 @@
   padding: 0 0.35rem;
   border-radius: 999px;
   font-size: 0.8rem;
-  color: var(--color-texto);
-  background-color: var(--color-maiz);
+  color: var(--color-noche);
+  background-color: var(--color-dorado);
   animation: contador-saltar 0.35s ease;
 }
 
