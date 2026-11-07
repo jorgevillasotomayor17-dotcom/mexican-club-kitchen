@@ -11,6 +11,9 @@ import platosRouter from './routes/platos.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// En Render las peticiones llegan a través de un proxy: así se lee la IP real de cada visitante
+app.set('trust proxy', 1);
+
 app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173' }));
 app.use(express.json());
 

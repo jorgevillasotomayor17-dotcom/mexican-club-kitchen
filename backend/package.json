@@ -4,6 +4,9 @@
   "description": "Servidor de Mexican Club Kitchen",
   "type": "module",
   "main": "server.js",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch-path=server.js --watch-path=config --watch-path=models --watch-path=routes --watch-path=middleware server.js",
