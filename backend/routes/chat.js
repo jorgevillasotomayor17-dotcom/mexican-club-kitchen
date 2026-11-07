@@ -1,11 +1,12 @@
 import { Router } from 'express';
-import Anthropic from '@anthropic-ai/sdk';
+import { ApiError, FinishReason, GoogleGenAI, ThinkingLevel } from '@google/genai';
 import { rateLimit } from 'express-rate-limit';
 import Plato from '../models/Plato.js';
 
 const router = Router();
 
-const MODELO = 'claude-opus-5-5';
+// Modelo de Google con nivel gratuito
+const MODELO = 'gemini-3.8-flash';
 const MAX_MENSAJES = 10;
 const MAX_CARACTERES = 500;
 
@@ -21,7 +22,7 @@ const limitador = rateLimit({
 // El cliente se crea la primera vez que se usa, cuando ya existe la clave
 let cliente = null;
 function obtenerCliente() {
-  if (!cliente) cliente = new Anthropic();
+  if (!cliente) cliente = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   return cliente;
 }
 
@@ -75,8 +76,8 @@ function prepararMensajes(mensajes) {
   }
 
   return mensajes.map((m) => ({
-    role: m.rol === 'usuario' ? 'user' : 'assistant',
-    content: m.texto.trim(),
+    role: m.rol === 'usuario' ? 'user' : 'model',
+    parts: [{ text: m.texto.trim() }],
   }));
 }
 
@@ -89,49 +90,51 @@ router.post('/', limitador, async (req, res) => {
     });
   }
 
-  if (!process.env.ANTHROPIC_API_KEY) {
+  if (!process.env.GEMINI_API_KEY) {
     return res.status(503).json({ mensaje: 'Brisi no está disponible en este momento.' });
   }
 
   try {
     const platos = await Plato.find({ disponible: true }).sort({ categoria: 1, nombre: 1 }).lean();
 
-    const respuesta = await obtenerCliente().beta.messages.create({
+    const respuesta = await obtenerCliente().models.generateContent({
       model: MODELO,
-      max_tokens: 2048,
-      output_config: { effort: 'low' },
-      // Si los filtros de seguridad rechazan una pregunta inocente, el servidor la reintenta con otro modelo
-      betas: ['server-side-fallback-2026-07-01'],
-      fallbacks: 'default',
-      system: crearInstrucciones(platos),
-      messages: mensajes,
+      contents: mensajes,
+      config: {
+        systemInstruction: crearInstrucciones(platos),
+        maxOutputTokens: 2048,
+        // Pensar poco basta para un chat de recomendaciones y responde más rápido
+        thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
+      },
     });
 
-    if (respuesta.stop_reason === 'refusal') {
+    // Los filtros de seguridad de Google pueden bloquear la pregunta o la respuesta
+    const bloqueada =
+      respuesta.promptFeedback?.blockReason ||
+      respuesta.candidates?.[0]?.finishReason === FinishReason.SAFETY;
+
+    if (bloqueada) {
       return res.json({
         respuesta: 'Uy, con eso no te puedo ayudar. ¿Quieres que te recomiende algo del menú?',
       });
     }
 
-    const texto = respuesta.content
-      .filter((bloque) => bloque.type === 'text')
-      .map((bloque) => bloque.text)
-      .join('')
-      .trim();
+    const texto = respuesta.text?.trim();
 
     res.json({
       respuesta: texto || 'Perdón, no te entendí bien. ¿Me lo repites con otras palabras?',
     });
   } catch (error) {
-    if (error instanceof Anthropic.RateLimitError) {
-      return res.status(429).json({ mensaje: 'Brisi está atendiendo a mucha gente. Intenta en un momento.' });
-    }
-    if (error instanceof Anthropic.AuthenticationError) {
-      console.error('La clave ANTHROPIC_API_KEY no es válida');
-      return res.status(503).json({ mensaje: 'Brisi no está disponible en este momento.' });
-    }
-    if (error instanceof Anthropic.APIError) {
-      console.error(`Error de la API de Claude (${error.status}):`, error.message);
+    if (error instanceof ApiError) {
+      if (error.status === 429) {
+        // En el plan gratuito, Google limita cuántas preguntas se pueden hacer por minuto y por día
+        return res.status(429).json({ mensaje: 'Brisi está atendiendo a mucha gente. Intenta en un momento.' });
+      }
+      if (error.status === 400 || error.status === 401 || error.status === 403) {
+        console.error(`Gemini rechazó la petición (${error.status}). Revisa GEMINI_API_KEY:`, error.message);
+        return res.status(503).json({ mensaje: 'Brisi no está disponible en este momento.' });
+      }
+      console.error(`Error de la API de Gemini (${error.status}):`, error.message);
       return res.status(502).json({ mensaje: 'Brisi tuvo un problema. Intenta de nuevo.' });
     }
     console.error('Error en el chat:', error.message);
