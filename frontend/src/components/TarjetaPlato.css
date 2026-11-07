@@ -42,8 +42,31 @@
   margin: 0;
 }
 
-.tarjeta-plato .tarjeta-plato-precio {
+.tarjeta-plato-pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
   margin-top: auto;
+}
+
+.tarjeta-plato-agregar {
+  padding: 0.5rem 1.1rem;
+  border: none;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tarjeta-plato .tarjeta-plato-en-carrito {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-verde);
+  animation: entrar 0.3s ease;
+}
+
+.tarjeta-plato .tarjeta-plato-precio {
   font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-rojo);
