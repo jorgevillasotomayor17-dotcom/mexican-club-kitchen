@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { rateLimit } from 'express-rate-limit';
 import mongoose from 'mongoose';
 import { requiereAdmin } from '../middleware/auth.js';
 import Pedido from '../models/Pedido.js';
@@ -9,11 +10,20 @@ const router = Router();
 const MAX_POR_PLATO = 50;
 const MAX_PLATOS_DISTINTOS = 20;
 
+// Cada persona (por IP) puede enviar 5 pedidos por hora: evita que llenen la base de datos con pedidos falsos
+const limitadorPedidos = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  limit: 5,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  message: { mensaje: 'Ya enviaste varios pedidos. Si necesitas algo más, escríbenos en Contacto.' },
+});
+
 function esTextoConContenido(valor) {
   return typeof valor === 'string' && valor.trim() !== '';
 }
 
-router.post('/', async (req, res) => {
+router.post('/', limitadorPedidos, async (req, res) => {
   const { cliente, telefono, direccion, items } = req.body ?? {};
 
   if (!esTextoConContenido(cliente)) {
