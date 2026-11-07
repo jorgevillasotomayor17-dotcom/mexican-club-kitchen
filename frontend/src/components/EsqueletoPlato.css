@@ -1,0 +1,74 @@
+.esqueleto {
+  position: relative;
+  overflow: hidden;
+  border: var(--vidrio-borde);
+  border-radius: 1.25rem;
+  background-color: var(--superficie);
+}
+
+/* Brillo que cruza la tarjeta de izquierda a derecha.
+   Se mueve con transform, que el navegador anima sin esfuerzo */
+.esqueleto::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    rgb(255 255 255 / 0.07) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  animation: esqueleto-brillo 1.6s ease-in-out infinite;
+}
+
+@keyframes esqueleto-brillo {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.esqueleto-foto {
+  aspect-ratio: 4 / 3;
+  background-color: rgb(255 255 255 / 0.05);
+}
+
+.esqueleto-cuerpo {
+  display: grid;
+  gap: 0.7rem;
+  padding: 1.25rem;
+}
+
+.esqueleto-linea {
+  height: 0.85rem;
+  border-radius: 999px;
+  background-color: rgb(255 255 255 / 0.08);
+}
+
+.esqueleto-titulo {
+  width: 60%;
+  height: 1.15rem;
+}
+
+.esqueleto-corta {
+  width: 75%;
+}
+
+.esqueleto-pie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.esqueleto-precio {
+  width: 5rem;
+  height: 1.1rem;
+}
+
+.esqueleto-boton {
+  width: 8.5rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  background-color: rgb(201 164 92 / 0.15);
+}

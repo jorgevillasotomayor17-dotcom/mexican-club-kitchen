@@ -17,11 +17,22 @@
 }
 
 .menu-error {
-  padding: 1rem;
-  border-radius: 0.75rem;
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: 1.5rem;
   border: 1px solid rgb(242 139 130 / 0.3);
+  border-radius: 1.25rem;
+  text-align: center;
   color: var(--color-error);
   background-color: var(--color-error-fondo);
+  animation: entrar 0.4s var(--curva-suave);
+}
+
+.menu-error p {
+  margin: 0;
 }
 
 .menu-categoria + .menu-categoria {
