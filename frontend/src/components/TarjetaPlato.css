@@ -23,6 +23,12 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+/* La foto se acerca un poco al pasar el mouse; overflow: hidden de la tarjeta la recorta */
+.tarjeta-plato:hover img {
+  transform: scale(1.05);
 }
 
 .tarjeta-plato-cuerpo {
