@@ -10,6 +10,15 @@ const MODELOS = ['gemini-3.6-flash', 'gemini-3.5-flash-lite'];
 const ESPERA_MAXIMA_MS = 20000;
 const MAX_MENSAJES = 10;
 const MAX_CARACTERES = 500;
+const MAX_POR_PLATO = 50;
+const MAX_PLATOS_DISTINTOS = 20;
+
+// Precios como los escribimos en Colombia: $ 22.000
+const formatoPesos = new Intl.NumberFormat('es-CO', {
+  style: 'currency',
+  currency: 'COP',
+  maximumFractionDigits: 0,
+});
 
 // Cada persona (por IP) puede enviar 20 mensajes cada 10 minutos: cada respuesta cuesta dinero
 const limitador = rateLimit({
@@ -59,7 +68,10 @@ async function preguntarAGemini(peticion) {
 
 function crearInstrucciones(platos) {
   const menu = platos
-    .map((plato) => `- ${plato.nombre} (${plato.categoria}): ${plato.descripcion} Precio: $${plato.precio} COP.`)
+    .map(
+      (plato) =>
+        `- ${plato.nombre} (${plato.categoria}): ${plato.descripcion} Precio: ${formatoPesos.format(plato.precio)}. Código: ${plato._id}`
+    )
     .join('\n');
 
   return `Eres Brisi, la asistente virtual de Mexican Club Kitchen, un restaurante de comida mexicana a domicilio en Barranquilla, Colombia.
@@ -69,20 +81,87 @@ Cómo respondes:
 - Respuestas cortas: máximo 3 oraciones. Es un chat pequeño en una página web.
 - Empieza tu respuesta de inmediato, sin rodeos.
 - Sin formato Markdown (nada de asteriscos ni listas con guiones): solo texto simple.
+- Escribe los precios como en el menú, por ejemplo $ 22.000.
 
 Qué puedes hacer:
 - Recomendar platos del menú según los gustos de la persona.
 - Explicar los platos, sus ingredientes y sus precios, usando solo el menú de abajo.
 - Contar curiosidades breves de la comida mexicana.
+- Ayudar a armar el pedido: cuando la persona diga que quiere pedir o agregar platos concretos, pon esos platos (con su código y cantidad) en el campo "platos". En "respuesta" resume lo que vas a agregar con el total y dile que toque el botón "Agregar al pedido" que aparece debajo de tu mensaje. Después podrá enviar el pedido desde el botón "Pedido" de arriba, donde escribe su nombre, teléfono y dirección.
+- Si la persona solo pregunta o pide recomendaciones, deja "platos" vacío.
 
 Límites:
 - Usa únicamente los platos y precios del menú. Si te preguntan por algo que no está, di que no lo tenemos.
 - No inventes horarios, teléfonos, direcciones, tiempos de entrega, promociones ni costos de domicilio. Para eso, invita a escribir en el formulario de la sección "Contacto" de esta página.
-- Todavía no puedes tomar pedidos ni recibir pagos por el chat. Si alguien quiere pedir, invítalo a escribir en la sección "Contacto".
+- No recibes pagos ni datos personales por el chat: nunca pidas nombre, teléfono ni dirección. Esos datos se escriben en el formulario del pedido.
+- Si no queda claro qué plato o cuántas unidades quiere, pregunta antes de agregar.
+- No muestres los códigos de los platos en "respuesta": son solo para el campo "platos".
 - Si te piden algo que no tenga que ver con el restaurante o la comida, responde con amabilidad que solo puedes ayudar con el menú de Mexican Club Kitchen.
 
 Menú disponible hoy:
 ${menu || '(No hay platos disponibles en este momento.)'}`;
+}
+
+// Forma exacta que debe tener la respuesta de Gemini (salida estructurada en JSON)
+function crearEsquema(platos) {
+  const codigo = { type: 'string', description: 'Código del plato, tal como aparece en el menú.' };
+  // enum obliga a Gemini a elegir solo códigos que existen en el menú
+  if (platos.length > 0) codigo.enum = platos.map((plato) => String(plato._id));
+
+  return {
+    type: 'object',
+    properties: {
+      respuesta: { type: 'string', description: 'Lo que Brisi le dice a la persona.' },
+      platos: {
+        type: 'array',
+        description: 'Platos para agregar al pedido. Vacío si la persona no pidió agregar nada.',
+        items: {
+          type: 'object',
+          properties: {
+            codigo,
+            cantidad: { type: 'integer', minimum: 1, maximum: MAX_POR_PLATO },
+          },
+          required: ['codigo', 'cantidad'],
+        },
+      },
+    },
+    required: ['respuesta', 'platos'],
+  };
+}
+
+// Convierte el JSON de Gemini en datos seguros: solo platos reales y cantidades válidas
+function leerRespuesta(texto, platos) {
+  let datos;
+  try {
+    datos = JSON.parse(texto);
+  } catch {
+    return null;
+  }
+
+  if (typeof datos?.respuesta !== 'string' || datos.respuesta.trim() === '') {
+    return null;
+  }
+
+  const platosPorId = new Map(platos.map((plato) => [String(plato._id), plato]));
+  const sugeridos = [];
+
+  for (const item of Array.isArray(datos.platos) ? datos.platos : []) {
+    const plato = platosPorId.get(item?.codigo);
+    const cantidadValida =
+      Number.isInteger(item?.cantidad) && item.cantidad >= 1 && item.cantidad <= MAX_POR_PLATO;
+    const repetido = sugeridos.some((sugerido) => sugerido._id === item?.codigo);
+
+    if (plato && cantidadValida && !repetido && sugeridos.length < MAX_PLATOS_DISTINTOS) {
+      sugeridos.push({
+        _id: String(plato._id),
+        nombre: plato.nombre,
+        precio: plato.precio, // El precio sale de la base de datos, no de la IA
+        cantidad: item.cantidad,
+      });
+    }
+  }
+
+  return { respuesta: datos.respuesta.trim(), platos: sugeridos };
 }
 
 // Revisa la conversación que envía el navegador y la convierte al formato de la API
@@ -133,6 +212,9 @@ router.post('/', limitador, async (req, res) => {
       config: {
         systemInstruction: crearInstrucciones(platos),
         maxOutputTokens: 2048,
+        // Pedimos JSON con la forma del esquema en vez de texto libre
+        responseMimeType: 'application/json',
+        responseJsonSchema: crearEsquema(platos),
         // Pensar poco basta para un chat de recomendaciones y responde más rápido
         thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
       },
@@ -146,14 +228,18 @@ router.post('/', limitador, async (req, res) => {
     if (bloqueada) {
       return res.json({
         respuesta: 'Uy, con eso no te puedo ayudar. ¿Quieres que te recomiende algo del menú?',
+        platos: [],
       });
     }
 
-    const texto = respuesta.text?.trim();
+    const resultado = leerRespuesta(respuesta.text ?? '', platos);
 
-    res.json({
-      respuesta: texto || 'Perdón, no te entendí bien. ¿Me lo repites con otras palabras?',
-    });
+    res.json(
+      resultado ?? {
+        respuesta: 'Perdón, no te entendí bien. ¿Me lo repites con otras palabras?',
+        platos: [],
+      }
+    );
   } catch (error) {
     if (estaSaturado(error)) {
       return res.status(503).json({ mensaje: 'Brisi está atendiendo a mucha gente. Intenta en un momento.' });
