@@ -50,9 +50,10 @@ function Contacto() {
 
   return (
     <section id="contacto" className="contacto">
-      <h2>Contáctanos</h2>
+      <h2>Hablemos</h2>
       <p className="contacto-intro">
-        ¿Tienes una pregunta o quieres hacer un pedido especial? Escríbenos.
+        ¿Una duda, un pedido para un evento o una sugerencia? Escríbenos y te respondemos
+        pronto.
       </p>
 
       <form

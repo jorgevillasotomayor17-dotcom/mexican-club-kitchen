@@ -4,15 +4,15 @@ import './Nosotros.css'
 const puntosFuertes = [
   {
     titulo: 'Recetas tradicionales',
-    texto: 'Preparamos cada plato con recetas inspiradas en la cocina mexicana de siempre.',
+    texto: 'Cada plato sale de recetas de la cocina mexicana de siempre, con su toque picante.',
   },
   {
     titulo: 'Ingredientes frescos',
-    texto: 'Tortillas, carnes y salsas preparadas el mismo día.',
+    texto: 'Tortillas, carnes y salsas preparadas el mismo día. Nada recalentado.',
   },
   {
-    titulo: 'Entrega a domicilio',
-    texto: 'Llevamos tu pedido caliente a cualquier barrio de Barranquilla.',
+    titulo: 'Directo a tu puerta',
+    texto: 'Sin mesas y sin filas: tu pedido llega caliente a cualquier barrio de Barranquilla.',
   },
 ]
 
@@ -23,8 +23,9 @@ function Nosotros() {
     <section id="nosotros" className="nosotros">
       <h2>Quiénes somos</h2>
       <p className="nosotros-intro">
-        Mexican Club Kitchen nació para traer el sabor de México a Barranquilla.
-        Cocinamos con cariño y te lo llevamos hasta la puerta de tu casa.
+        Mexican Club Kitchen nació para traer a Barranquilla comida mexicana de verdad.
+        Cocinamos para compartir en familia, con amigos o para darte tú solo un antojo real de
+        México.
       </p>
 
       <ul ref={ref} className={`nosotros-lista revelar-grupo ${visible ? 'visible' : ''}`}>
@@ -38,6 +39,8 @@ function Nosotros() {
           </li>
         ))}
       </ul>
+
+      <p className="nosotros-lema">Únete al Club. Vive el sabor.</p>
     </section>
   )
 }

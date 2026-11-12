@@ -18,14 +18,15 @@ function Portada() {
         <p className="portada-etiqueta">Barranquilla · Comida a domicilio</p>
         <h1>Mexican Club Kitchen</h1>
         <p className="portada-texto">
-          Tacos, burritos y quesadillas con sabor mexicano, directo a tu puerta.
+          Auténtico sabor mexicano, directo a tu puerta. Tacos, burritos y quesadillas hechos
+          al momento, con recetas tradicionales y ese toque picante que hace la diferencia.
         </p>
         <div className="portada-acciones">
           <a href="#menu" className="boton">
-            Ver el menú
+            Pide ahora
           </a>
           <a href="#nosotros" className="boton-vidrio">
-            Conócenos
+            Conoce el Club
           </a>
         </div>
       </div>

@@ -18,6 +18,14 @@
   color: var(--color-texto-suave);
 }
 
+.nosotros-lema {
+  margin: 2.5rem 0 0;
+  font-family: var(--fuente-titulos);
+  font-size: clamp(1.25rem, 3.5vw, 1.75rem);
+  font-weight: 700;
+  color: var(--color-texto);
+}
+
 .nosotros-lista {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
