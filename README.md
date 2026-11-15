@@ -1,4 +1,14 @@
-# 🌮 Mexican Club Kitchen
+# 🌮 Mexican Club Kitchen 🇲🇽
+
+**Auténtico sabor mexicano directo a tu puerta.**
+
+En Mexican Club Kitchen preparamos cada plato con recetas tradicionales, ingredientes frescos y ese toque picante que hace la diferencia. Tacos, quesadillas, burritos y nachos hechos al momento, pensados para compartir en familia, con amigos o para disfrutar tú solo un antojo real de México.
+
+Sin mesas, sin filas: solo comida mexicana de verdad, rápida y directa a tu casa.
+
+**Únete al Club. Vive el sabor.**
+
+## 💻 Sobre el proyecto
 
 Web de comida mexicana a domicilio en Barranquilla, con carrito de pedidos, panel de administración y **Brisi**, una asistente con inteligencia artificial que recomienda platos y ayuda a armar el pedido.
 

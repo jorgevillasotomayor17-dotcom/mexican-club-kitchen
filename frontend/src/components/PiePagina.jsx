@@ -6,6 +6,7 @@ function PiePagina() {
   return (
     <footer className="pie-pagina">
       <p className="pie-pagina-marca">Mexican Club Kitchen</p>
+      <p>Auténtico sabor mexicano, directo a tu puerta.</p>
 
       <nav aria-label="Pie de página">
         <ul className="pie-pagina-enlaces">

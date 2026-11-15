@@ -53,6 +53,10 @@ function Menu() {
   return (
     <section id="menu" className="menu">
       <h2>Nuestro menú</h2>
+      <p className="menu-intro">
+        Todo se prepara al momento. Elige tus favoritos, agrégalos al pedido y nosotros te lo
+        llevamos.
+      </p>
 
       {cargando && (
         <>
@@ -80,7 +84,7 @@ function Menu() {
       )}
 
       {!cargando && !error && !hayPlatos && (
-        <p className="menu-aviso">Pronto tendremos platos disponibles.</p>
+        <p className="menu-aviso">Estamos preparando el menú. Vuelve pronto: lo bueno ya viene en camino.</p>
       )}
 
       {CATEGORIAS.map((categoria) => {

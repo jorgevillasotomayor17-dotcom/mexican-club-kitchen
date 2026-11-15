@@ -5,10 +5,18 @@
 }
 
 .menu h2 {
-  margin: 0 0 2rem;
+  margin: 0 0 0.75rem;
   font-size: clamp(1.75rem, 5vw, 2.5rem);
   text-align: center;
   color: var(--color-texto);
+}
+
+.menu-intro {
+  max-width: 36rem;
+  margin: 0 auto 2rem;
+  text-align: center;
+  font-size: 1.125rem;
+  color: var(--color-texto-suave);
 }
 
 .menu-aviso {
